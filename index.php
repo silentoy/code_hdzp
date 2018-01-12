@@ -237,7 +237,6 @@ switch (ENVIRONMENT)
 
 	define('BASEURL', 'http://www.hdzp.com');
 
-
 	// The path to the "application" directory
 	if (is_dir($application_folder))
 	{
