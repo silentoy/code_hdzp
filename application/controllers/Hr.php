@@ -28,7 +28,12 @@ class Hr extends MY_Controller {
 	 */
 	public function index()
 	{
+		$data = array();
 
+		$data['positions'] = $this->M_positions->total(array('cid'=>$this->hrInfo['id']));
+		$data['hrInfo']    = $this->hrInfo;
+
+		$this->load->view('hr/index', $data);
 	}
 
 	/**

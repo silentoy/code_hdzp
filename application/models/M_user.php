@@ -53,17 +53,19 @@ class M_user extends MY_Model {
 		$hdzp_auth   = str_replace(' ', '+', $hdzp_auth);
 		$auth         = daddslashes(explode("\t", dauthcode($hdzp_auth, 'DECODE')), 1);
 		$userinfo     = array();
-		$data         = array('uid' => 0, 'username' => '', 'groupid' => 0, 'regdate' => 0, 'sjyz' => '', 'nickname' => '');
+		$data         = array('id'=>0, 'uid' => 0, 'username' => '', 'groupid' => 0, 'regdate' => 0, 'sjyz' => '', 'nickname' => '');
 
 		list($pw, $userid) = empty($auth) || count($auth) < 2 ? array('', '') : $auth;
 
 		$this->load->model('M_user');
 
+		$userid = 2;
+		$hdzp_uid = 2;
 		if($userid) {
-			$userinfo = $this->M_user->get(array('uid' => $userid));
+			$userinfo = $this->M_user->get(array('id' => $userid));
 		}
 
-		if (isset($userinfo['uid']) && $hdzp_uid == $userinfo['uid']) {
+		if (isset($userinfo['id']) && $hdzp_uid == $userinfo['id']) {
 			//已登录
 			foreach ($data as $key=>$val) {
 				$data[$key]   = isset($userinfo[$key]) ? $userinfo[$key] : $val;

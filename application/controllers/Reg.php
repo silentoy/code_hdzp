@@ -6,6 +6,8 @@ class Reg extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->load->model('M_code');
 	}
 
 	public function index()
