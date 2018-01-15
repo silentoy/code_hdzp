@@ -26,7 +26,7 @@ class M_log extends MY_Model {
 		if (!$data['log_ip']) {
 			$data['log_ip'] = CLIENTIP;
 		}
-		if (!$data['uid']) {
+		if (!isset($data['uid']) || !$data['uid']) {
 			$data['uid'] = $this->user['id'];
 		}
 

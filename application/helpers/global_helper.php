@@ -302,3 +302,15 @@ function getLocation($address='') {
 
     return $location;
 }
+
+function positionStatus($status=0) {
+    if ($status==3) {
+        return '精选';
+    } else if ($status==2) {
+        return '已上线';
+    } else if($status==1) {
+        return '已下线';
+    } else {
+        return '待审核';
+    }
+}

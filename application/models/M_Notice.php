@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class M_Notice extends MY_Model {
+class M_notice extends MY_Model {
 
 	function __construct()
 	{

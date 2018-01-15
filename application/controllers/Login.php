@@ -36,7 +36,7 @@ class Login extends MY_Controller {
 		if (!$uid) {
 			$errLog = array(
 				'log_type'	=> 'falseLogin',
-				'log_param' => json_encode($param),
+				'log_params' => json_encode($param),
 				'log_time'	=> TIMESTAMP,
 				'log_ip'	=> CLIENTIP
 			);
@@ -45,14 +45,14 @@ class Login extends MY_Controller {
 		}
 
 		//登录成功,写入cookie
-		$user = $this->M_user->get(array('uid'=>$uid));
+		$user = $this->M_user->get(array('id'=>$uid));
 		setloginstatus($user, 2592000);
 
         //记录成功日志
         $okLog = array(
             'uid'   => $uid,
             'log_type'	=> 'tureLogin',
-            'log_param' => json_encode($param),
+            'log_params' => json_encode($param),
             'log_time'	=> TIMESTAMP,
             'log_ip'	=> CLIENTIP
         );
@@ -64,8 +64,8 @@ class Login extends MY_Controller {
 	private function getFromData(){
 		$param = array();
 
-		$param['name'] = $this->input->post('name', TRUE);
-		$param['password'] = $this->input->post('password', TRUE);
+		$param['name'] = $this->input->post('name', TRUE) ? $this->input->post('name', TRUE) : $this->input->get('name', TRUE);
+		$param['password'] = $this->input->post('password', TRUE) ? $this->input->post('password', TRUE) : $this->input->get('password', TRUE);
 		$param['referer']  = $this->input->post('referer', TRUE);
 		$param['code']     = $this->input->post('code', TRUE);
 
@@ -81,10 +81,10 @@ class Login extends MY_Controller {
 			$this->form_validation->set_rules('referer', '来源url', 'trim|required|xss_clean');
 		}
 
-
-		if ($this->form_validation->run() == FALSE){
-
-			if (!$param['username']) {
+		$checkRequest = true;
+		if ($this->input->get('name', TRUE)) $checkRequest = false;
+		if ($checkRequest && $this->form_validation->run() == FALSE){
+			if (!$param['name']) {
 				$msg   = '用户名有误！';
 			} else {
 				$msg   = '提交参数错误！';

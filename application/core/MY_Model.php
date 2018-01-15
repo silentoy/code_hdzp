@@ -32,9 +32,14 @@ class MY_Model extends CI_Model {
 		return (int)$this->db->count_all_results();
 	}
 
-	public function getList($where, $start=0, $limit=1000)
+	public function getList($where, $start=0, $limit=1000, $orderBy='')
 	{
-		return $this->db->select('*')->from($this->table)->where($where)->limit($start, $limit);
+		$this->db->select('*');
+		$this->db->from($this->table);
+		$this->db->where($where);
+		$this->db->order_by($orderBy);
+		$this->db->limit($limit, $start);
+		return $this->db->get()->result_array();
 	}
 
 }

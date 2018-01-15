@@ -71,7 +71,7 @@ function delcookie()
 //设置登录用户cookie
 function setloginstatus($member, $cookietime) {
 
-    $uid        = (int)$member['uid'];
+    $uid        = (int)$member['id'];
     $username   = $member['name'];
     $password   = $member['password'];
 //    var_dump($cookietime,$uid,$username,$nickname,$password,$avatar);die;

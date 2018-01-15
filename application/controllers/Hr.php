@@ -30,10 +30,20 @@ class Hr extends MY_Controller {
 	{
 		$data = array();
 
+		$this->load->model('M_notice');
+		$data['notices']    = $this->M_notice->getList(array('status'=>0), 0, 10, 'id DESC');
 		$data['positions'] = $this->M_positions->total(array('cid'=>$this->hrInfo['id']));
-		$data['hrInfo']    = $this->hrInfo;
 
+		$this->load->view('hr/header', array('hrInfo'=>$this->hrInfo));
 		$this->load->view('hr/index', $data);
+	}
+
+	public function vip()
+	{
+		$data = array();
+
+		$this->load->view('hr/header', array('hrInfo'=>$this->hrInfo));
+		$this->load->view('hr/vip', $data);
 	}
 
 	/**
@@ -42,15 +52,18 @@ class Hr extends MY_Controller {
 	public function positionAdd()
 	{
 		$id = (int)$this->input->get('id', TRUE);
-		$info = false;
+		$data = array(
+			'hrInfo'	=> $this->hrInfo
+		);
 		if ($id) {
-			$info = $this->M_positions->get(array('id'=>$id, 'uid'=>$this->user['id']));
-			if (!$info) {
+			$data['info'] = $this->M_positions->get(array('id'=>$id, 'uid'=>$this->user['id']));
+			if (!$data['info']) {
 				echojsondata('err', false, '职位信息不存在');
 			}
 		}
 
-		$this->load->view('hr/add', $info);
+		$this->load->view('hr/header', array('hrInfo'=>$this->hrInfo));
+		$this->load->view('hr/position_add', $data);
 	}
 
 	public function positionUpdate()
@@ -114,28 +127,30 @@ class Hr extends MY_Controller {
 	public function positionList()
 	{
 		$data = array();
-		$pre_page = 20;
+		$pre_page = 1;
 		$page = (int)$this->input->get('page', TRUE);
 		$data['page'] = $page ? $page : 1;
 
-		$data['total'] = $this->M_positons->total(array('cid'=>$this->hrInfo['id'], 'status>'=>0));
+		$data['total'] = $this->M_positions->total(array('cid'=>$this->hrInfo['id'], 'status>='=>0));
 		if ($data['total']) {
 			$start = ($data['page']-1) * $pre_page;
 
-			$data['list'] = $this->M_positons->getList(array('cid'=>$this->hrInfo['id']), $start, $pre_page);
+			$data['list'] = $this->M_positions->getList(array('cid'=>$this->hrInfo['id']), $start, $pre_page);
 
 			//分页
 			$this->load->library('pagination');
 
-			$config['base_url']    = BASEURL;
+			$config['base_url']    = '/index.php?c=hr&m=positionList';
 			$config['total_rows']  = $data['total'];        //总数
 			$config['per_page']    = $pre_page;         //每页个数
 			$config['num_links']   = 10;                       //分页个数
 			$config['cur_page']    = $data['page'];
+			$config['query_string_segment'] = 'page';
 
 			$config['data_page_attr']      = false;
-			$config['reuse_query_string']  = true;
 			$config['use_page_numbers']    = true;
+			$config['page_query_string']   = true;
+			$config['reuse_query_string']  = true;
 
 			$config['first_link']  = false;
 			$config['prev_link']   = '上一页';
@@ -158,7 +173,8 @@ class Hr extends MY_Controller {
 			$data['pageStr']    = $this->pagination->create_links();
 		}
 
-		$this->load->view('Hr/List', $data);
+		$this->load->view('hr/header', array('hrInfo'=>$this->hrInfo));
+		$this->load->view('hr/position_list', $data);
 	}
 
 

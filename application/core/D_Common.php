@@ -36,6 +36,7 @@ class D_Common extends CI_Controller {
 
 		$this->load->model('M_user');
 		$this->user = $this->M_user->user();    //获取当前登陆信息
+		define('GLOBAL_USER', $this->user);
 
 		//设置当前uri
 		$this->redirection = urlencode($this->uri->uri_string());

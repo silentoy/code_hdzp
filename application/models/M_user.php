@@ -44,23 +44,20 @@ class M_user extends MY_Model {
 	public function user()
 	{
 		//获取cookie信息
-		$hdzp_uid    = $this->input->cookie('hdzp_ajaxuid', TRUE);        //用户uid
+		$hdzp_uid    = $this->input->cookie('hdzp_uid', TRUE);        //用户uid
 		$hdzp_auth   = $this->input->cookie('hdzp_auth', TRUE);           //加密串
-		$hdzp_userid = $this->input->cookie('hdzp_userid', TRUE);         //用户名
-
+		$hdzp_userid = $this->input->cookie('hdzp_username', TRUE);         //用户名
 
 		// 手动模拟提交cookie的时候，+号会自动变为空格导致解码失败。
 		$hdzp_auth   = str_replace(' ', '+', $hdzp_auth);
 		$auth         = daddslashes(explode("\t", dauthcode($hdzp_auth, 'DECODE')), 1);
 		$userinfo     = array();
-		$data         = array('id'=>0, 'uid' => 0, 'username' => '', 'groupid' => 0, 'regdate' => 0, 'sjyz' => '', 'nickname' => '');
+		$data         = array('id'=>0, 'uid' => 0, 'name' => '', 'groupid' => 0, 'regdate' => 0, 'sjyz' => '', 'nickname' => '');
 
 		list($pw, $userid) = empty($auth) || count($auth) < 2 ? array('', '') : $auth;
 
 		$this->load->model('M_user');
 
-		$userid = 2;
-		$hdzp_uid = 2;
 		if($userid) {
 			$userinfo = $this->M_user->get(array('id' => $userid));
 		}
@@ -83,15 +80,15 @@ class M_user extends MY_Model {
 	public function onLogin($data) {
 
 		//uc表user信息
-		$userInfo      = $this->get(array('user'=>$data['user']));
+		$userInfo      = $this->get(array('name'=>$data['name']));
 		$passwordmd5   = strlen($data['password']) == 32 ? $data['password'] : md5($data['password']);
 
 		if (!$userInfo) {
 			return 0;
 		} elseif ($userInfo['password'] != md5($passwordmd5.$userInfo['salt'])) {
-			return $this->_pwdErr;
+			return 0;
 		} else {
-			return $userInfo['uid'];
+			return $userInfo['id'];
 		}
 	}
 
