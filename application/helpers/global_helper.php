@@ -298,7 +298,12 @@ function createPassword($pw_length = 8){
 function getLocation($address='') {
     $location = array('lat'=>'', 'lng'=>'');
 
-    //@todo 调用百度接口,获取经纬度
+    $url = "http://api.map.baidu.com/geocoder/v2/?address=".urlencode($address)."&output=json&ak=1LRmckBNyViwdlC9g9AihaSbH7aWbviY";
+    $res = curlpage($url, '', 2, false);
+    $res = json_decode($res, true);
+    if ($res['status']==0 && isset($res['result']['location'])) {
+        $location = $res['result']['location'];
+    }
 
     return $location;
 }
@@ -313,4 +318,41 @@ function positionStatus($status=0) {
     } else {
         return '待审核';
     }
+}
+
+function curlpage($url, $postdata = '', $timeout = 2, $post = true, $header = array()){
+    $timeout = (int)$timeout;
+
+    if(!$timeout || empty($url))return false;
+
+    $ch = curl_init();
+    if (!$post && $postdata) {
+        rtrim($url, '?');
+        $mark	= strrpos($url, '?') ? '&' : '?';
+        $url .= $mark . http_build_query($postdata);
+    }
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+
+    if ($post) {
+        curl_setopt ($ch, CURLOPT_POST, true);
+        curl_setopt ($ch, CURLOPT_AUTOREFERER, true);
+        if ($header) {
+            curl_setopt( $ch, CURLOPT_HTTPHEADER, $header);
+        }
+        curl_setopt ($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+        curl_setopt ($ch, CURLOPT_POSTFIELDS, $postdata);
+    }
+
+    $data = curl_exec($ch);
+    curl_close($ch);
+    if ($_REQUEST['geturl']) {
+        var_dump($url);
+    }
+    if ($_REQUEST['geturldata']) {
+        var_dump($data);
+    }
+    return $data;
 }
