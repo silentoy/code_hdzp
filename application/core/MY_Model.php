@@ -25,18 +25,24 @@ class MY_Model extends CI_Model {
 		return $this->db->update($this->table, $set, $where);
 	}
 
-	public function total($data)
+	public function total($data, $like=false)
 	{
 		$this->db->where($data);
+		if ($like) {
+			$this->db->like($like);
+		}
 		$this->db->from($this->table);
 		return (int)$this->db->count_all_results();
 	}
 
-	public function getList($where, $start=0, $limit=1000, $orderBy='')
+	public function getList($where, $start=0, $limit=1000, $orderBy='', $like=false)
 	{
 		$this->db->select('*');
 		$this->db->from($this->table);
 		$this->db->where($where);
+		if ($like) {
+			$this->db->like($like);
+		}
 		$this->db->order_by($orderBy);
 		$this->db->limit($limit, $start);
 		return $this->db->get()->result_array();

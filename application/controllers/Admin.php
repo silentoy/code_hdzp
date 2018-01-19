@@ -13,6 +13,7 @@ class Admin extends MY_Controller {
 		}
 		$this->load->model('M_company');
 		$this->load->model('M_positions');
+		$this->load->model('M_user');
 	}
 
 	/**
@@ -20,7 +21,122 @@ class Admin extends MY_Controller {
 	 */
 	public function index()
 	{
+		//获取公司列表
+		$data = array();
+		$pre_page = 10;
+		$page = (int)$this->input->get('page', TRUE);
+		$name = $this->input->get('name', TRUE);
+		$data['page'] = $page ? $page : 1;
 
+		$params['name'] = $name;
+		$data['total'] = $this->M_company->getData($params);
+
+		if ($data['total']) {
+			$params['start'] = ($data['page']-1) * $pre_page;
+			$params['num'] = $pre_page;
+			$data['list'] = $this->M_company->getData($params);
+
+			//分页
+			$this->load->library('pagination');
+
+			$config['base_url']    = '/index.php?c=admin';
+			if ($name) $config['base_url'] .= "&name={$name}";
+			$config['total_rows']  = $data['total'];        //总数
+			$config['per_page']    = $pre_page;         //每页个数
+			$config['num_links']   = 10;                       //分页个数
+			$config['cur_page']    = $data['page'];
+
+			$config['data_page_attr']      = false;
+			$config['reuse_query_string']  = true;
+			$config['use_page_numbers']    = true;
+			$config['page_query_string']   = true;
+			$config['query_string_segment'] = 'page';
+
+			$config['first_link']  = false;
+			$config['prev_link']   = '上一页';
+			$config['next_link']   = '下一页';
+			$config['last_link']   = false;
+
+			$config['attriclass']      = array(                //首尾页特殊class
+				'prev' => 'page-over',
+				'next' => 'page-over',
+			);
+			$config['cur_tag_open']    = '<a class="current">';
+			$config['cur_tag_close']   = '</a>';
+			$config['num_tag_open']    = ' ';
+			$config['num_tag_close']   = ' ';
+
+			$this->pagination->initialize($config);
+
+			$data['pageStr']    = $this->pagination->create_links();
+		}
+
+		$this->load->view('admin/header');
+		$this->load->view('admin/index', $data);
+	}
+
+	public function companyAdd()
+	{
+		$this->load->model('M_Tag');
+
+		$data = array();
+		$data['tags'] = $this->M_Tag->getList(array('status'=>0), 0, 1000, 'orderby desc, id asc');
+		if ($id = (int)$this->input->get('id', TRUE)) {
+			$data['info'] = $this->M_company->get(array('id' => $id));
+		}
+
+		$this->load->view('admin/header');
+		$this->load->view('admin/company/add', $data);
+	}
+
+	public function onCompanyUpdate()
+	{
+		$id       = (int)$this->input->post('id', TRUE);
+		$password = $this->input->post('password', TRUE);
+		$ulevel   = $this->input->post('ulevel', TRUE);
+		$vip_start= $this->input->post('vip_start', TRUE);
+		$vip_end  = $this->input->post('vip_end', TRUE);
+
+		if (!$id) {
+			echojsondata('err', false, '公司信息不存在');
+		}
+		$info = $this->M_company->get(array('id'=>$id));
+		if (!$info) {
+			echojsondata('err', false, '公司信息不存在');
+		}
+
+		if ($password) {
+			$salt     = substr(uniqid(rand()), -6);
+			$password = strlen($password) == 32 ? $password : md5($password) ;
+			$password = md5($password.$salt);
+
+			$param = array(
+				'password'	=> $password,
+				'salt'		=> $salt
+			);
+			$this->M_user->update($param, array('id'=>$info['uid']));
+			$param['uid'] = $info['uid'];
+
+			$this->M_log->add(array(
+				'log_type'		=> 'updatePassword',
+				'log_params'	=> $param
+			));
+		}
+
+		if ($ulevel) {
+			$param = array(
+				'ulevel'	=> $ulevel,
+				'vip_start' => strtotime($vip_start),
+				'vip_end'	=> strtotime($vip_end)
+			);
+			$this->M_company->update($param, array('id'=>$id));
+			$param['id'] = $id;
+			$this->M_log->add(array(
+				'log_type'		=> 'updateCompany',
+				'log_params'	=> $param
+			));
+		}
+		echojsondata('ok');
 	}
 
 	/**
@@ -30,7 +146,7 @@ class Admin extends MY_Controller {
 	{
 		$data = array();
 		//获取公司列表
-		$data['companys'] = $this->M_company->getList(array('ulevel<'=>2));
+		$data['companys'] = $this->M_company->getList(array('ulevel<='=>2));
 
 		$id = (int)$this->input->get('id', TRUE);
 		if ($id) {
@@ -40,7 +156,8 @@ class Admin extends MY_Controller {
 			}
 		}
 
-		$this->load->view('position/add', $data);
+		$this->load->view('admin/header');
+		$this->load->view('admin/position/add', $data);
 	}
 
 	public function positionUpdate()
@@ -103,20 +220,28 @@ class Admin extends MY_Controller {
 	public function positionList()
 	{
 		$data = array();
-		$pre_page = 20;
+		$pre_page = 10;
 		$page = (int)$this->input->get('page', TRUE);
+		$name = addslashes(htmlspecialchars($this->input->get('name', TRUE)));
 		$data['page'] = $page ? $page : 1;
 
-		$data['total'] = $this->M_positons->total(array('status>'=>0));
+		$like = false;
+		if ($name) $like = array('name'=>$name);
+		$data['total'] = $this->M_positions->total(array('status>'=>0), $like);
 		if ($data['total']) {
 			$start = ($data['page']-1) * $pre_page;
 
-			$data['list'] = $this->M_positons->getList(array('status>'=>0), $start, $pre_page);
+			$data['list'] = $this->M_positions->getList(array('status>'=>0), $start, $pre_page, 'addtime desc', $like);
+			foreach ($data['list'] as $key=>$item) {
+				$company = $this->M_company->get(array('id'=>$item['cid']));
+				$data['list'][$key]['company_name'] = $company['name'];
+			}
 
 			//分页
 			$this->load->library('pagination');
 
-			$config['base_url']    = BASEURL;
+			$config['base_url']    = '/index.php?c=admin&m=positionlist';
+			if ($name) $config['base_url'] .= "&name={$name}";
 			$config['total_rows']  = $data['total'];        //总数
 			$config['per_page']    = $pre_page;         //每页个数
 			$config['num_links']   = 10;                       //分页个数
@@ -125,20 +250,20 @@ class Admin extends MY_Controller {
 			$config['data_page_attr']      = false;
 			$config['reuse_query_string']  = true;
 			$config['use_page_numbers']    = true;
+			$config['page_query_string']   = true;
+			$config['query_string_segment'] = 'page';
 
 			$config['first_link']  = false;
 			$config['prev_link']   = '上一页';
 			$config['next_link']   = '下一页';
 			$config['last_link']   = false;
 
-			$config['current_start']   = '<span>';             //当前页格式
-			$config['current_end']     = '</span>';
 			$config['attriclass']      = array(                //首尾页特殊class
-				'prev' => 'previous-page',
-				'next' => 'next-page',
+				'prev' => 'page-over',
+				'next' => 'page-over',
 			);
-			$config['cur_tag_open']    = '';
-			$config['cur_tag_close']   = '';
+			$config['cur_tag_open']    = '<a class="current">';
+			$config['cur_tag_close']   = '</a>';
 			$config['num_tag_open']    = ' ';
 			$config['num_tag_close']   = ' ';
 
@@ -147,7 +272,8 @@ class Admin extends MY_Controller {
 			$data['pageStr']    = $this->pagination->create_links();
 		}
 
-		$this->load->view('Admin/Position/List', $data);
+		$this->load->view('admin/header');
+		$this->load->view('admin/position/list', $data);
 	}
 
 	public function companyList()
@@ -166,7 +292,7 @@ class Admin extends MY_Controller {
 			//分页
 			$this->load->library('pagination');
 
-			$config['base_url']    = BASEURL;
+			$config['base_url']    = '/index.php?c=admin&m=companylist';
 			$config['total_rows']  = $data['total'];        //总数
 			$config['per_page']    = $pre_page;         //每页个数
 			$config['num_links']   = 10;                       //分页个数
@@ -175,26 +301,26 @@ class Admin extends MY_Controller {
 			$config['data_page_attr']      = false;
 			$config['reuse_query_string']  = true;
 			$config['use_page_numbers']    = true;
+			$config['page_query_string']   = true;
+			$config['query_string_segment'] = 'page';
 
 			$config['first_link']  = false;
 			$config['prev_link']   = '上一页';
 			$config['next_link']   = '下一页';
 			$config['last_link']   = false;
 
-			$config['current_start']   = '<span>';             //当前页格式
-			$config['current_end']     = '</span>';
 			$config['attriclass']      = array(                //首尾页特殊class
-				'prev' => 'previous-page',
-				'next' => 'next-page',
+				'prev' => 'page-over',
+				'next' => 'page-over',
 			);
-			$config['cur_tag_open']    = '';
-			$config['cur_tag_close']   = '';
+			$config['cur_tag_open']    = '<a class="current">';
+			$config['cur_tag_close']   = '</a>';
 			$config['num_tag_open']    = ' ';
 			$config['num_tag_close']   = ' ';
 
 			$this->pagination->initialize($config);
 
-			$data['pageStr']    = $this->M_company->create_links();
+			$data['pageStr']    = $this->pagination->create_links();
 		}
 
 		$this->load->view('Admin/Company/List', $data);
@@ -227,23 +353,23 @@ class Admin extends MY_Controller {
 
 	public function tagAdd()
 	{
-		$this->load->model('M_tag');
+		$this->load->model('M_Tag');
 		$param = $this->getTagData();
 
 		if ($id = $param['id']) {
 			$set['status'] = $param['status'];
 
-			$this->M_tag->update($set, array('id'=>$id));
+			$this->M_Tag->update($set, array('id'=>$id));
 			$logType = 'updateTag';
 		} else {
 			//检查重复
-			$isExist = $this->M_tag->get(array('name'=>$param['name']));
+			$isExist = $this->M_Tag->get(array('name'=>$param['name']));
 			if ($isExist) {
 				echojsondata('err', false, '标签名已存在');
 			}
 
 			unset($param['id']);
-			$this->M_tag->add($param);
+			$this->M_Tag->add($param);
 			$logType = 'addTag';
 		}
 
@@ -255,6 +381,128 @@ class Admin extends MY_Controller {
 		));
 
 		echojsondata('ok', array('id'=>$id));
+	}
+
+	/*
+	 * 标签排序 array(array('id'=>1, 'orderby'=>4), array('id'=>2, 'orderby'=>3))
+	 */
+	public function tagOrder()
+	{
+		$order = $this->input->get('order', TRUE);
+		if (!$order) {
+			echojsondata('err', false, '参数不完整');
+		}
+		$this->load->model('M_Tag');
+		foreach ($order as $item) {
+			$this->M_Tag->update(array('orderby'=>$item['orderby']), array('id'=>$item['id']));
+		}
+		echojsondata('ok');
+	}
+
+	public function tagList()
+	{
+		$this->load->model('M_Tag');
+
+		$data = array();
+		$pre_page = 20;
+		$page = (int)$this->input->get('page', TRUE);
+		$data['page'] = $page ? $page : 1;
+
+		$data['total'] = $this->M_Tag->total(array('status'=>0));
+		if ($data['total']) {
+			$start = ($data['page']-1) * $pre_page;
+
+			$data['list'] = $this->M_Tag->getList(array('status'=>0), $start, $pre_page, 'orderby desc');
+
+			//分页
+			$this->load->library('pagination');
+
+			$config['base_url']    = '/index.php?c=admin&m=taglist';
+			$config['total_rows']  = $data['total'];        //总数
+			$config['per_page']    = $pre_page;         //每页个数
+			$config['num_links']   = 10;                       //分页个数
+			$config['cur_page']    = $data['page'];
+
+			$config['data_page_attr']      = false;
+			$config['reuse_query_string']  = true;
+			$config['use_page_numbers']    = true;
+			$config['page_query_string']   = true;
+			$config['query_string_segment'] = 'page';
+
+			$config['first_link']  = false;
+			$config['prev_link']   = '上一页';
+			$config['next_link']   = '下一页';
+			$config['last_link']   = false;
+
+			$config['attriclass']      = array(                //首尾页特殊class
+				'prev' => 'page-over',
+				'next' => 'page-over',
+			);
+			$config['cur_tag_open']    = '<a class="current">';
+			$config['cur_tag_close']   = '</a>';
+			$config['num_tag_open']    = ' ';
+			$config['num_tag_close']   = ' ';
+
+			$this->pagination->initialize($config);
+
+			$data['pageStr']    = $this->pagination->create_links();
+		}
+
+		$this->load->view('admin/header');
+		$this->load->view('admin/tag/list', $data);
+	}
+
+	public function noticeList()
+	{
+		$this->load->model('M_notice');
+
+		$data = array();
+		$pre_page = 20;
+		$page = (int)$this->input->get('page', TRUE);
+		$data['page'] = $page ? $page : 1;
+
+		$data['total'] = $this->M_notice->total(array('status'=>0));
+		if ($data['total']) {
+			$start = ($data['page']-1) * $pre_page;
+
+			$data['list'] = $this->M_notice->getList(array('status'=>0), $start, $pre_page, 'addtime desc');
+
+			//分页
+			$this->load->library('pagination');
+
+			$config['base_url']    = '/index.php?c=admin&m=noticelist';
+			$config['total_rows']  = $data['total'];        //总数
+			$config['per_page']    = $pre_page;         //每页个数
+			$config['num_links']   = 10;                       //分页个数
+			$config['cur_page']    = $data['page'];
+
+			$config['data_page_attr']      = false;
+			$config['reuse_query_string']  = true;
+			$config['use_page_numbers']    = true;
+			$config['page_query_string']   = true;
+			$config['query_string_segment'] = 'page';
+
+			$config['first_link']  = false;
+			$config['prev_link']   = '上一页';
+			$config['next_link']   = '下一页';
+			$config['last_link']   = false;
+
+			$config['attriclass']      = array(                //首尾页特殊class
+				'prev' => 'page-over',
+				'next' => 'page-over',
+			);
+			$config['cur_tag_open']    = '<a class="current">';
+			$config['cur_tag_close']   = '</a>';
+			$config['num_tag_open']    = ' ';
+			$config['num_tag_close']   = ' ';
+
+			$this->pagination->initialize($config);
+
+			$data['pageStr']    = $this->pagination->create_links();
+		}
+
+		$this->load->view('admin/header');
+		$this->load->view('admin/notice/list', $data);
 	}
 
 	public function noticeAdd()

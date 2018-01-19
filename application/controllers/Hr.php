@@ -140,31 +140,29 @@ class Hr extends MY_Controller {
 			//分页
 			$this->load->library('pagination');
 
-			$config['base_url']    = '/index.php?c=hr&m=positionList';
+			$config['base_url']    = '/index.php?c=hr&m=positionlist';
 			$config['total_rows']  = $data['total'];        //总数
 			$config['per_page']    = $pre_page;         //每页个数
 			$config['num_links']   = 10;                       //分页个数
 			$config['cur_page']    = $data['page'];
-			$config['query_string_segment'] = 'page';
 
 			$config['data_page_attr']      = false;
+			$config['reuse_query_string']  = true;
 			$config['use_page_numbers']    = true;
 			$config['page_query_string']   = true;
-			$config['reuse_query_string']  = true;
+			$config['query_string_segment'] = 'page';
 
 			$config['first_link']  = false;
 			$config['prev_link']   = '上一页';
 			$config['next_link']   = '下一页';
 			$config['last_link']   = false;
 
-			$config['current_start']   = '<span>';             //当前页格式
-			$config['current_end']     = '</span>';
 			$config['attriclass']      = array(                //首尾页特殊class
-				'prev' => 'previous-page',
-				'next' => 'next-page',
+				'prev' => 'page-over',
+				'next' => 'page-over',
 			);
-			$config['cur_tag_open']    = '';
-			$config['cur_tag_close']   = '';
+			$config['cur_tag_open']    = '<a class="current">';
+			$config['cur_tag_close']   = '</a>';
 			$config['num_tag_open']    = ' ';
 			$config['num_tag_close']   = ' ';
 

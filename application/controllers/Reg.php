@@ -24,22 +24,27 @@ class Reg extends MY_Controller {
 		$param = $this->getFromData();
 
 		//检测公司名重复
-		if ($this->M_company->get(array('name'=>$param['name']))) {
+		$existInfo = $this->M_company->get(array('name'=>$param['name']));
+		if ($existInfo && $existInfo['uid']!=$param['uid']) {
 			echojsondata('err', false, '您注册的公司名称已存在');
 		}
 
-		//随机生成密码串
-		$param['password'] = createPassword(8);
+		if (!$param['uid']) {
+			//随机生成密码串
+			$param['password'] = createPassword(8);
 
-		//写入用户表
-		$user = array(
-			'name'		=> $param['name'],
-			'password'	=> $param['password'],
-			'groupid'	=> 2
-		);
-		$uid = $this->M_user->add($user);
-		if (!$uid) {
-			echojsondata('err', false, '注册失败,请联系管理员');
+			//写入用户表
+			$user = array(
+				'name' => $param['name'],
+				'password' => $param['password'],
+				'groupid' => 2
+			);
+			$uid = $this->M_user->add($user);
+			if (!$uid) {
+				echojsondata('err', false, '注册失败,请联系管理员');
+			}
+		} else {
+			$uid = $param['uid'];
 		}
 
 		//获取地址经纬度
@@ -60,7 +65,12 @@ class Reg extends MY_Controller {
 			'intro'		=> $param['intro'],
 			'ulevel'	=> 3
 		);
-		$this->M_company->add($company);
+		if (!$param['uid']) {
+			$this->M_company->add($company);
+		} else {
+			$this->M_company->update($company, array('uid'=>$uid));
+			$this->M_use->update(array('name'=>$param['name']), array('id'=>$uid));
+		}
 
 		//注册完成
 		$res = array(
@@ -75,6 +85,7 @@ class Reg extends MY_Controller {
 	private function getFromData(){
 		$param = array();
 
+		$param['uid'] 		= (int)$this->input->post('uid', TRUE);
 		$param['name'] 		= $this->input->post('name', TRUE);
 		$param['address'] 	= $this->input->post('address', TRUE);
 		$param['tagid']  	= implode(',', $this->input->post('tagid', TRUE));
