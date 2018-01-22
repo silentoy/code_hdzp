@@ -163,7 +163,7 @@ class Admin extends MY_Controller {
 	public function positionUpdate()
 	{
 		$id 	= (int)$this->input->get('id', TRUE);
-		$status = (int)$this->input->get('status', TRUE);
+		$status = $this->input->get('status', TRUE);
 		if (!$id) {
 			echojsondata('err', false, '职位信息不存在');
 		}

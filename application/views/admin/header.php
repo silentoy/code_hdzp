@@ -4,22 +4,22 @@
 <head>
     <meta charset="utf-8" />
     <title>管理员管理后台</title>
-    <?php if (!$_GET['m'] || $_GET['m']=='index') { ?>
+    <?php if (!isset($_GET['m']) || $_GET['m']=='index') { ?>
     <link rel="stylesheet" href="<?= BASEURL; ?>/static/css/style-index.css" />
     <?php } ?>
-    <?php if ($_GET['m']=='companyadd') { ?>
+    <?php if (isset($_GET['m']) && $_GET['m']=='companyadd') { ?>
         <link rel="stylesheet" href="<?= BASEURL; ?>/static/css/style-newwork.css" />
     <?php } ?>
-    <?php if ($_GET['m']=='positionlist') { ?>
+    <?php if (isset($_GET['m']) && $_GET['m']=='positionlist') { ?>
         <link rel="stylesheet" href="<?= BASEURL; ?>/static/css/style-job.css" />
     <?php } ?>
-    <?php if ($_GET['m']=='positionadd') { ?>
+    <?php if (isset($_GET['m']) && $_GET['m']=='positionadd') { ?>
         <link rel="stylesheet" href="<?= BASEURL; ?>/static/css/style-station.css" />
     <?php } ?>
-    <?php if ($_GET['m']=='noticelist') { ?>
+    <?php if (isset($_GET['m']) && $_GET['m']=='noticelist') { ?>
         <link rel="stylesheet" href="<?= BASEURL; ?>/static/css/style-hint.css" />
     <?php } ?>
-    <?php if ($_GET['m']=='taglist') { ?>
+    <?php if (isset($_GET['m']) && $_GET['m']=='taglist') { ?>
         <link rel="stylesheet" href="<?= BASEURL; ?>/static/css/style-tags.css" />
     <?php } ?>
 </head>

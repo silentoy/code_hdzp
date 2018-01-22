@@ -8,14 +8,14 @@ class Tag extends MY_Controller {
 		parent::__construct();
 
 		$this->load->model('M_company');
-		$this->load->model('M_tag');
+		$this->load->model('M_Tag');
 	}
 
 	public function getList()
 	{
 		$num = (int)$this->input->get('num', TRUE);
 
-		$list = $this->M_tag->getList(array('status'=>0), 0, $num, 'orderby desc, id desc');
+		$list = $this->M_Tag->getList(array('status'=>0), 0, $num, 'orderby desc, id desc');
 		echojsondata('ok', $list);
 	}
 }

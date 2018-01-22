@@ -16,14 +16,14 @@ class Position extends MY_Controller
         $params['pid'] = (int)$this->input->get('pid', TRUE);
         //经纬度
         $params['lat'] = $this->input->get('lat', TRUE);
-        $params['lng'] = $this->input->get('lng', TURE);
+        $params['lng'] = $this->input->get('lng', TRUE);
 
-        $openid = $this->input->get('openid', TURE);
+        $openid = $this->input->get('openid', TRUE);
 
-        $info = $this->M_Positions->getInfo($params);
+        $info = $this->M_positions->getInfo($params);
 
         //更新浏览数
-        $this->M_Positions->updateViews($info['pid'], $info['cid']);
+        $this->M_positions->updateViews($info['pid'], $info['cid']);
 
         //是否收藏
         $this->load->model('M_collect');
@@ -46,16 +46,17 @@ class Position extends MY_Controller
         $params['tagid'] = (int)$this->input->get('tagid', TRUE);
         //经纬度
         $params['lat'] = $this->input->get('lat', TRUE);
-        $params['lng'] = $this->input->get('lng', TURE);
-        $params['openid'] = $this->input->get('openid', TURE);
-        $total = $this->M_Positions->getData($params);
+        $params['lng'] = $this->input->get('lng', TRUE);
+        $params['openid'] = $this->input->get('openid', TRUE);
+        $params['name'] = $this->input->get('name', TRUE);
+        $total = $this->M_positions->getData($params);
 
         if ($total) {
             $params['start'] = (int)$this->input->get('start', TRUE);
             $params['num'] = (int)$this->input->get('num', TRUE);
             $params['start'] = $params['start'] ? $params['start'] : 0;
             $params['num'] = $params['num'] ? $params['num'] : 10;
-            $list = $this->M_Positions->getData($params);
+            $list = $this->M_positions->getData($params);
         } else {
             $list = false;
         }

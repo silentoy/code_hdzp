@@ -20,7 +20,7 @@ class M_positions extends MY_Model
         }
 
         if ($cid) {
-            $sql = "update `hdzp_company` set views=views+1 where id='{$id}'";
+            $sql = "update `hdzp_company` set views=views+1 where id='{$cid}'";
             $this->db->query($sql);
         }
 
@@ -33,7 +33,7 @@ class M_positions extends MY_Model
         $params['lat'] = isset($params['lat']) ? $params['lat'] : 0;
         $params['lng'] = isset($params['lng']) ? $params['lng'] : 0;
 
-        $sql = "select p.id as pid,p.cid,p.name as position_name,p.wage_min,p.wage_max,p.wage_type,c.name as company_name,c.tagid,p.addtime,p.status,p.`intro`,p.`requirement`,p.views ";
+        $sql = "select p.id as pid,p.cid,p.name as position_name,p.wage_min,p.wage_max,p.wage_type,c.name as company_name,c.tagid,p.addtime,p.status,p.`intro`,p.`requirement`,p.views,p.ask_type,c.tel,c.email ";
         if ($params['lat'] && $params['lng']) {
             $sql .= ",( 6371 * acos( cos( radians('{$params['lat']}') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians('{$params['lng']}') ) + sin( radians('{$params['lat']}') ) * sin( radians( lat ) ) ) ) AS distance ";
         }
@@ -56,16 +56,16 @@ class M_positions extends MY_Model
         $params['openid'] = isset($params['openid']) ? $params['openid'] : 0;
 
         if ($params['start'] == 0 && $params['num'] == 0) {    #计数
-            $sql = "select count(p.*) from hdzp_positions as p
+            $sql = "select count(*) as total from hdzp_positions as p
 					INNER JOIN hdzp_company as c on p.cid=c.id WHERE " . $this->_buildWhere($params);
-            return (int)$this->db->query($sql)->row_array(0, true);
+            return (int)$this->db->query($sql)->row_array(0)['total'];
         }
 
         $sql = "select p.id as pid,p.cid,p.name as position_name,p.wage_min,p.wage_max,p.wage_type,c.name as company_name,c.tagid,p.addtime,p.status,p.ask_type,c.tel,c.email";
         if ($params['lat'] && $params['lng']) {
             $sql .= ",( 6371 * acos( cos( radians('{$params['lat']}') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians('{$params['lng']}') ) + sin( radians('{$params['lat']}') ) * sin( radians( lat ) ) ) ) AS distance ";
         }
-        $sql .= "from hdzp_positions as p INNER JOIN hdzp_company as c on p.cid=c.id WHERE " . $this->_buildWhere($params) . " order by p.addtime desc limit {$params['start']}, {$params['num']}";
+        $sql .= " from hdzp_positions as p INNER JOIN hdzp_company as c on p.cid=c.id WHERE " . $this->_buildWhere($params) . " order by p.addtime desc limit {$params['start']}, {$params['num']}";
 
         $list = $this->db->query($sql)->result_array();
 
@@ -76,7 +76,7 @@ class M_positions extends MY_Model
     {
         if (!$list) return $list;
 
-        $this->load->model('M_tag');
+        $this->load->model('M_Tag');
         foreach ($list as $key => $item) {
             $list[$key] = array(
                 'pid'   => $item['pid'],
@@ -84,7 +84,7 @@ class M_positions extends MY_Model
                 'position_name' => $item['position_name'],
                 'company_name' => $item['company_name'],
                 'distance' => isset($item['distance']) ? number_format($item['distance'], 1) : 0,
-                'tags' => $this->M_tag->getListByIn($item['tagid']),
+                'tags' => $this->M_Tag->getListByIn($item['tagid']),
                 'wage' => $this->_formatWage($item['wage_min'], $item['wage_max'], $item['wage_type'])
             );
         }
@@ -95,14 +95,14 @@ class M_positions extends MY_Model
     {
         if (!$info) return $info;
 
-        $this->load->model('M_tag');
+        $this->load->model('M_Tag');
         return array(
             'pid'   => $info['pid'],
             'cid'   => $info['cid'],
             'position_name' => $info['position_name'],
             'company_name' => $info['company_name'],
             'distance' => isset($info['distance']) ? number_format($info['distance'], 1) : 0,
-            'tags' => $this->M_tag->getListByIn($info['tagid']),
+            'tags' => $this->M_Tag->getListByIn($info['tagid']),
             'wage' => $this->_formatWage($info['wage_min'], $info['wage_max'], $info['wage_type']),
             'intro' => $info['intro'],
             'requirement' => $info['requirement'],
@@ -151,6 +151,10 @@ class M_positions extends MY_Model
 
         if ($params['openid']) {
             $where .= " p.id in (select pid from hdzp_collect where openid='{$params['openid']}') and";
+        }
+
+        if ($params['name']) {
+            $where .= " (p.name LIKE '%{$params['name']}%' or c.name LIKE '%{$params['name']}%') and";
         }
 
         return rtrim($where, 'and');

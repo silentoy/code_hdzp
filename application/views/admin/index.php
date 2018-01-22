@@ -6,7 +6,7 @@
         <form action="/index.php">
             <input type="hidden" name="c" value="admin" />
             <label for="">
-                <input type="text" name="name" placeholder="可输入公司名称或职位名称" value="<?=addslashes(htmlspecialchars($_GET['name']));?>">
+                <input type="text" name="name" placeholder="可输入公司名称或职位名称" value="<?=isset($_GET['name'])?addslashes(htmlspecialchars($_GET['name'])):'';?>">
             </label>
             <button class="soso">搜索</button>
         </form>
