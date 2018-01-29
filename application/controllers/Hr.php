@@ -10,7 +10,7 @@ class Hr extends MY_Controller {
 		parent::__construct();
 
 		if (!$this->user['id'] || $this->user['groupid']!=2) {
-			header('HTTP/1.0 403 Forbidden');
+			header('location:/index.php?c=login');
 			exit();
 		}
 
@@ -184,16 +184,15 @@ class Hr extends MY_Controller {
 		$param['name'] 			= $this->input->post('name', TRUE);
 		$param['wage_min']  	= $this->input->post('wage_min', TRUE);
 		$param['wage_max']      = $this->input->post('wage_max', TRUE);
-		$param['wage_type']     = $this->input->post('wage_type', TRUE);
+		$param['wage_type']     = (int)$this->input->post('wage_type', TRUE);
 		$param['intro']     	= $this->input->post('intro', TRUE);
 		$param['requirement']   = $this->input->post('requirement', TRUE);
 		$param['ask_type']     	= $this->input->post('ask_type', TRUE);
 
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('name', '职位名称', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('intro', '工作职责', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('requirement', '岗位要求', 'trim|required|xss_clean');
-
+		$this->form_validation->set_rules('name', '职位名称', 'trim|required');
+		$this->form_validation->set_rules('intro', '工作职责', 'trim|required');
+		$this->form_validation->set_rules('requirement', '岗位要求', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE){
 			echojsondata('err', false, '提交参数错误！');

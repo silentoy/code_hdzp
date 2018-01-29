@@ -15,7 +15,7 @@ class M_company extends MY_Model {
         $params['cid'] = isset($params['cid']) ? (int)$params['cid'] : 0;
 
         $sql = "select id,uid,`name`,address,master,tel,email,views,ulevel,tagid,intro ";
-        if ($params['lat'] && $params['lng']) {
+        if (isset($params['lat']) && isset($params['lng']) && $params['lat'] && $params['lng']) {
             $sql .= ",( 6371 * acos( cos( radians('{$params['lat']}') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians('{$params['lng']}') ) + sin( radians('{$params['lat']}') ) * sin( radians( lat ) ) ) ) AS distance ";
         }
         $sql .= " from {$this->table} WHERE id='{$params['cid']}' and ulevel in (1,2)";
@@ -38,7 +38,7 @@ class M_company extends MY_Model {
 		}
 
 		$sql = "select id,uid,`name`,address,master,tel,email,views,ulevel,tagid ";
-        if ($params['lat'] && $params['lng']) {
+        if (isset($params['lat']) && isset($params['lng']) && $params['lat'] && $params['lng']) {
             $sql .= ",( 6371 * acos( cos( radians('{$params['lat']}') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians('{$params['lng']}') ) + sin( radians('{$params['lat']}') ) * sin( radians( lat ) ) ) ) AS distance ";
         }
 		$sql .= " from {$this->table} WHERE " . $this->_buildWhere($params) . " ORDER BY id desc limit {$params['start']},{$params['num']}";

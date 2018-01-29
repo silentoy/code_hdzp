@@ -1,18 +1,20 @@
 /* Reset */
-html,body,form,p,h1,h2,h3,h4,dl,ul,ol,li,dt,dd,select,figure,figcaption{margin:0;padding:0;font-size:16px;font-weight:400;}
-body,select,input,option,button,textarea{color:#333;font:12px/1.5 "Microsoft YaHei",Arial;-webkit-text-size-adjust:none;}
-ul,ol,li{list-style-type:none;}
-em,i,var{font-style:normal;}
-a{text-decoration:none;color:#333; }
-a img{border:0 none;}
-img{max-width:100%;vertical-align:top;}
-input:focus::-webkit-input-placeholder{color:rgba(0,0,0,0);}
-input::-webkit-input-placeholder{color:#999;}
-textarea:focus::-webkit-input-placeholder{color:rgba(0,0,0,0);}
-textarea::-webkit-input-placeholder{color:#999;}
-input[type="text"],input[type="tel"]{border:none;-webkit-appearance:none;-webkit-border-image:none;border-image:none;-webkit-border-radius:0;border-radius:0;-webkit-box-sizing:border-box;box-sizing:border-box;}
-.clearfix:after{content:"";display:block;height:0;overflow:hidden;clear:both;visibility:hidden;}html{height:100%;-webkit-tap-highlight-color:transparent;}
-html,body{height: 100%;}
+body,dd,dl,dt,figcaption,figure,form,h1,h2,h3,h4,html,li,ol,p,select,ul{margin:0;padding:0;font-size:16px;font-weight:400}
+body,button,input,option,select,textarea{color:#333;font:12px/1.5 "Microsoft YaHei",Arial;-webkit-text-size-adjust:none}
+li,ol,ul{list-style-type:none}
+em,i,var{font-style:normal}
+a{text-decoration:none;color:#333}
+a img{border:0 none}
+img{max-width:100%;vertical-align:top}
+input:focus::-webkit-input-placeholder{color:transparent}
+input::-webkit-input-placeholder{color:#999}
+textarea:focus::-webkit-input-placeholder{color:transparent}
+textarea::-webkit-input-placeholder{color:#999}
+input[type=text],input[type=tel]{border:none;outline:0;-webkit-appearance:none;-webkit-border-image:none;border-image:none;-webkit-border-radius:0;border-radius:0;-webkit-box-sizing:border-box;box-sizing:border-box}
+select,textarea{outline:0;background-color:#fff}
+.clearfix:after{content:"";display:block;height:0;overflow:hidden;clear:both;visibility:hidden}
+html{height:100%;-webkit-tap-highlight-color:transparent}
+body,html{height:100%}
 
 /*公共样式*/
 /*侧边栏样式*/

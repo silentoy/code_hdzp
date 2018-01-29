@@ -26,19 +26,19 @@
 				<div class="name">
 					<img src="<?=BASEURL;?>/static/img/user.png" alt="">
 				</div>
-				<input type="text" name="name" placeholder="用户名">
-				<span class="error">请填写正确的企业名称</span>
+				<input type="text" name="name" placeholder="用户名" id="loginUser">
+				<span class="login-error">请填写正确的企业名称</span>
 			</div>
 			<div class="impot-box">
 				<div class="name">
 					<img src="<?=BASEURL;?>/static/img/password.png" alt="">
 				</div>
-				<input type="text" name="password" placeholder="密码">
-				<span class="error">请填写密码</span>
+				<input type="text" name="password" placeholder="密码" id="loginPass">
+				<span class="login-error">请填写密码</span>
 			</div>
 			<?php if($falseNum > 3)  { ?>
 			<div class="code">
-				<input type="text" name="code">
+				<input type="text" name="code" id="loginCode">
 				<div class="img">
 					<img src="/index.php?c=code"
 						 onclick="this.src='/index.php?c=code&amp;_' + Math.random()" title="看不清？点击更换另一个验证码。"
@@ -46,9 +46,9 @@
 				<a href="" class="">换一张</a>
 			</div>
 			<?php } ?>
-			<button type="submit" class="button">
+			<div type="submit" class="button" class="button" id="loginButton">
 				提交
-			</button>
+			</div>
 			<div class="menu">
 				<a href="/index.php?c=reg">企业用户注册</a>
 				<a class="forget-pass" href="">忘记密码</a>
@@ -59,6 +59,8 @@
 		客服联系电话： 15901071586
 	</div>
 </div>
+	<script src="<?=BASEURL;?>/static/js/jquery.js"></script>
+	<script src="<?=BASEURL;?>/static/js/home.js"></script>
 </body>
 
 </html>

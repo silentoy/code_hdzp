@@ -63,13 +63,14 @@
                 <span>请填写邮箱</span>
             </li>
             <li class="image">
-                <div>
-                    营业执照副本
-                </div>
-                <span class="upload-button">上传</span>
-                <span class="notes">上传图片请控制在2M以内</span>
-                <span>请填写邮箱</span>
+              <div>
+                营业执照副本
+              </div>
+              <label class="upload-button">上传<input type="file" id="upImg" accept="image/*"></label>
+              <span class="notes">上传图片请控制在2M以内</span>
+              <span>请上传营业执照副本电子版</span>
             </li>
+            <li id="imgList" class="img-list"></li>
             <li>
                 <div>
                     <input type="hidden" name="license">
@@ -86,6 +87,9 @@
         </ul>
     </form>
 </div>
+
+    <script src="<?=BASEURL;?>/static/js/jquery.js"></script>
+    <script src="<?=BASEURL;?>/static/js/home.js"></script>
 </body>
 
 </html>

@@ -225,7 +225,7 @@ define('FCPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 // Name of the "system" directory
 define('SYSDIR', basename(BASEPATH));
 
-define('BASEURL', 'http://www.haidianzhaopin.com');
+define('BASEURL', 'http://www.hdzp.com');
 
 // The path to the "application" directory
 if (is_dir($application_folder)) {

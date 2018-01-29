@@ -57,6 +57,11 @@ class Login extends MY_Controller {
             'log_ip'	=> CLIENTIP
         );
         $this->M_log->add($okLog);
+		if ($user['groupid']==1) {
+			$user['toUrl'] = '/index.php?c=admin';
+		} else {
+			$user['toUrl'] = '/index.php?c=hr';
+		}
         echojsondata('ok', $user);
 	}
 
@@ -70,15 +75,15 @@ class Login extends MY_Controller {
 		$param['code']     = $this->input->post('code', TRUE);
 
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('name', '用户名', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('password', '密码', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('name', '用户名', 'trim|required');
+		$this->form_validation->set_rules('password', '密码', 'trim|required');
 
 		if (isset($param['cookietime'])) {
-			$this->form_validation->set_rules('cookietime', '自动登录', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('cookietime', '自动登录', 'trim|required');
 		}
 
 		if (isset($param['referer'])){
-			$this->form_validation->set_rules('referer', '来源url', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('referer', '来源url', 'trim|required');
 		}
 
 		$checkRequest = true;

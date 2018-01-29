@@ -1,91 +1,107 @@
-
 /* 第六页 VIP */
-.container{height: calc(100% - (60px + 20px));}
-.header{height: 60px;line-height: 60px;background: #2bb598;}
-.left{float: left;width: 200px;height: 100%;background: black;}
-.contrast{position: relative;float: left;width: calc(100% - (200px + 40px));height: 100%;padding: 10px 20px;background: #fff;}
-.upgrade{height: 43px;line-height: 43px;background: #fff8d9;border: 1px solid #ffe184;padding-left: 50px;}
-.upgrade p{position: relative;font-weight: bold;font-size: 12px;color: #666;}
-.upgrade p:before{content: "";position: absolute;top: 12px;left: -24px;width: 20px;height: 20px;background: url(../image/alert.png) no-repeat;background-size: 100%;}
-.upgrade p span{color: #ff3333;}
-.contrast h4{padding: 20px 0;font-size: 16px;color: #333;}
-.compare{width: 100%;border-collapse: collapse;white-space: 0;table-layout: fixed;}
-.compare thead td{height: 37px;line-height: 37px;text-align: center;background: #f8f8f8;border: 1px solid #e2e2e2;font-size: 14px;color: #666;}
-.compare thead td:last-child{font-weight: bold;color: #2bb598;}
-.compare tbody td:first-child{text-align: left;padding-left: 20px;}
-.compare tbody td{height: 37px;line-height: 37px;font-size: 14px;color: #333;text-align: center;border: 1px solid #ededed;}
-.compare tbody td:last-child{color: #2bb598;}
-.contrast .contact{width: 242px;height: 30px;line-height: 30px;padding: 0 23px;background: #2bb598;border-radius: 100px;font-size: 14px;color: #fff;font-weight: bold;margin: 20px auto 0;}
+.container{height:calc(100% - (60px + 20px))}
+.header{height:60px;line-height:60px;background:#2bb598}
+.left{float:left;width:200px;height:100%;background:#000}
+.contrast{position:relative;float:left;width:calc(100% - (200px + 40px));height:100%;padding:10px 20px;background:#fff}
+.upgrade{height:43px;line-height:43px;background:#fff8d9;border:1px solid #ffe184;padding-left:50px}
+.upgrade p{position:relative;font-weight:700;font-size:12px;color:#666}
+.upgrade p:before{content:"";position:absolute;top:12px;left:-24px;width:20px;height:20px;background:url(../img/alert.png) no-repeat;background-size:100%}
+.upgrade p span{color:#f33}
+.contrast h4{padding:20px 0;font-size:16px;color:#333}
+.compare{width:100%;border-collapse:collapse;white-space:0;table-layout:fixed}
+.compare thead td{height:37px;line-height:37px;text-align:center;background:#f8f8f8;border:1px solid #e2e2e2;font-size:14px;color:#666}
+.compare thead td:last-child{font-weight:700;color:#2bb598}
+.compare tbody td:first-child{text-align:left;padding-left:20px}
+.compare tbody td{height:37px;line-height:37px;font-size:14px;color:#333;text-align:center;border:1px solid #ededed}
+.compare tbody td:last-child{color:#2bb598}
+.contrast .contact{width:242px;height:30px;line-height:30px;padding:0 23px;background:#2bb598;border-radius:100px;font-size:14px;color:#fff;font-weight:700;margin:20px auto 0}
+
+
 
 /* 第五页职位列表 */
-.position-list{width: 100%;margin-top: 20px;border-collapse: collapse;white-space: 0;table-layout: fixed;}
-.position-list thead td{height: 37px;line-height: 37px;text-align: center;background: #f8f8f8;border: 1px solid #e2e2e2;font-size: 14px;color: #666;}
-.position-list tbody td:first-child{text-align: left;padding-left: 20px;}
-.position-list tbody td{height: 37px;line-height: 37px;font-size: 14px;color: #333;text-align: center;border: 1px solid #ededed;}
-.position-list tbody .go-online{color: #2bb598;}
-.position-list tbody td:last-child span{color: #188aed;}
-.position-list tbody td:last-child span:hover{color: #ff3333;cursor: pointer;text-decoration: underline;}
-.position-list tbody td:last-child .modify{margin-right: 32px;}
-.position-list tbody td:last-child .shelf{margin-right: 36px;}
+.position-list{width:100%;margin-top:20px;border-collapse:collapse;white-space:0;table-layout:fixed}
+.position-list thead td{height:37px;line-height:37px;text-align:center;background:#f8f8f8;border:1px solid #e2e2e2;font-size:14px;color:#666}
+.position-list tbody td:first-child{text-align:left;padding-left:20px}
+.position-list tbody td{height:37px;line-height:37px;font-size:14px;color:#333;text-align:center;border:1px solid #ededed}
+.position-list tbody .go-online{color:#2bb598}
+.position-list tbody td:last-child span{color:#188aed}
+.position-list tbody td:last-child span:hover{color:#f33;cursor:pointer;text-decoration:underline}
+.position-list tbody td:last-child .modify{margin-right:32px}
+.position-list tbody td:last-child .shelf{margin-right:36px}
+.mask{position:absolute;top:50%;left:50%;margin:-95px 0 0 -163px;min-width:326px;text-align:center;background:#fff;border-radius:2px;box-shadow:0 0 8px 6px rgba(0,0,0,.2);display: none}
+.mask .title{height:42px;line-height:42px;border-bottom:1px solid #e6e6e6;overflow:hidden;padding:0 20px;font-size:14px;color:#999}
+.mask .title p{line-height:43px;float:left}
+.mask .title span{float:right;width:12px;height:12px;background:url(../img/close.png) no-repeat;background-size:100%;font-size:0;margin-top:16px;cursor:pointer}
+.mask .mask-content{padding:35px}
+.mask p{font-size:14px;line-height:30px}
+.mask .footer{margin-top:30px}
+.mask .footer span{display:inline-block;width:88px;height:30px;line-height:30px;cursor:pointer;font-size:14px;color:#fff;text-align:center;border-radius:4px}
+.mask .footer span:hover{cursor:pointer}
+.mask .footer .determine{background:#2bb598;margin-right:8px;cursor:pointer}
+.mask .footer .determine:hover{cursor:pointer}
+.mask .footer .cancel{border:1px solid #ccc;color:#333;cursor:pointer}
 
-.mask{position: absolute;top: 50%;left: 50%;margin: -95px 0 0 -163px;width: 326px;height: 190px;text-align: center;background: #fff;border-radius: 2px;box-shadow: 0px 0px 8px 6px rgba(0,0,0,0.2);}
-.mask .title{height: 42px;line-height: 42px;border-bottom: 1px solid #e6e6e6;overflow: hidden;padding: 0 20px;font-size: 14px;color: #999;}
-.mask .title p{float: left;}
-.mask .title span{float: right;width: 12px;height: 12px;background: url(../image/close.png) no-repeat;background-size: 100%;font-size: 0;margin-top: 16px;cursor: pointer}
-.mask .delete-text{padding: 30px 0 40px 0;font-size: 14px;color: #666;}
-.mask .footer span{display: inline-block;width: 88px;height: 30px;line-height: 30px;cursor: pointer;font-size: 14px;color: #fff;text-align: center;border-radius: 4px;}
-.mask .footer .determine{background: #2bb598;margin-right: 8px;}
-.mask .footer .cancel{border: 1px solid #ccc;color: #333;}
+
+
 
 /* 第四页 发布职位 */
-.release{margin-top: 20px;}
-.release li label{font-size: 14px;color: #333;font-weight: bold;margin-right: 8px;}
-.release li{margin-bottom: 20px;}
-.release li:last-child{margin: 0;}
-.release li input{width: 438px;height: 46px;padding: 16px 0 16px 20px;border: 1px solid #c2c2c2;margin-right: 8px;font-size: 14px;}
-.release li span{color: #ff3333;font-size: 12px;}
-.release .second input{width: 128px;}
-.release .second .reach{margin-right: 8px;color: #333;}
-.release .second .checkbox{position: relative;color: #333;margin: 0 20px 0 12px;vertical-align: middle;padding-left: 25px;}
-.release .second .checkbox:before{content: "";position: absolute;top: 0;left: 0;width: 16px;height: 16px;border: 1px solid #d3d5d9;vertical-align: middle;}
-.release .second .checkbox input[type="checkbox"]:checked + .checkbox:before{display: inline-block;content: "";width: 10px;height: 8px;background: url(../imgage/choose.png) no-repeat;background-size: 100%;}
-.release .second .checkbox input[type="checkbox"]{display: none;}
-.release .three label{display: inline-block;vertical-align: top;margin-top: 16px;}
-.release .three .remind{display: inline-block;vertical-align: top;margin-top: 16px;}
-.release .three textarea{width: 546px;height: 132px;padding: 16px 20px;font-size: 14px;border: 1px solid #c2c2c2;resize: none;margin-right: 10px;}
-.release .choose .radio input[type="checkbox"]{display: none;}
-.release .choose .radio{position: relative;padding-left: 26px;margin-right: 20px;}
-.release .choose .radio:before{content: "";position: absolute;top: 0;left: 0;width: 16px;height: 16px;border-radius: 50%;border: 1px solid #9b9b9b;}
-.release-occupation{width: 140px;height: 40px;line-height: 40px;text-align: center;background: #2bb598;font-size: 14px;color: #fff;cursor: pointer;border-radius: 4px;margin: 30px 0 0 66px;}
+
+.release{margin-top:20px}
+.release li label{font-size:14px;color:#333;font-weight:700;margin-right:8px}
+.release li{margin-bottom:20px}
+.release li:last-child{margin:0}
+.release li input{width:438px;height:46px;padding:16px 0 16px 20px;border:1px solid #c2c2c2;margin-right:8px;font-size:14px}
+.release li input[disabled]{border-color:#e6e6e6}
+.release li span{color:#f33;font-size:12px}
+.release .second input{width:128px}
+.release .second .reach{margin-right:8px;color:#333}
+.release .second .checkbox{position:relative;color:#333;margin:0 20px 0 12px;vertical-align:middle}
+.release .second .checkbox input{width:15px;height:15px}
+.release .three label{display:inline-block;vertical-align:top;margin-top:16px}
+.release .three .remind{display:inline-block;vertical-align:top;margin-top:16px}
+.release .three textarea{width:546px;height:132px;padding:16px 20px;font-size:14px;border:1px solid #c2c2c2;resize:none;margin-right:10px}
+.release .choose .radio input{width:15px;height:15px}
+.release-occupation{width:140px;height:40px;outline:0;line-height:40px;text-align:center;background:#2bb598;font-size:14px;color:#fff;cursor:pointer;border-radius:4px;margin:30px 0 0 66px;border:none;}
+
+
+
 /* 第三页 个人中心首页 */
-.total{height: 83px;line-height: 83px;padding: 0 20px;border: 1px solid #e8e8e8;margin: 10px 0 20px 0;background: #fafafa;}
-.total span{display: inline-block;font-size: 14px;color: #333;}
-.total span var{font-size: 30px;vertical-align: middle;}
-.total .visit{position: relative;width: 154px;margin-right: 50px;}
-.total .visit:after{content: "";position: absolute;top: 32px;right: 0;width: 1px;height: 20px;background: #cccccc;}
-.notice h3{padding-bottom: 10px;border-bottom: 1px solid #e6e6e6;font-size: 16px;}
-.notice .notice-list{border-bottom: 1px solid #e6e6e6;padding: 10px 0;}
-.notice .notice-list li{height: 36px;line-height: 36px;font-size: 14px;}
-.notice .notice-list li span{display: inline-block;color: #999;margin-right: 12px;}
-.notice .notice-list li a{display: inline-block;height: 36px;color: #333;}
-.notice .notice-list li a:hover{cursor: pointer;text-decoration: underline;color: #58c0a8;}
+
+.total{height:83px;line-height:83px;padding:0 20px;border:1px solid #e8e8e8;margin:10px 0 20px 0;background:#fafafa}
+.total span{display:inline-block;font-size:14px;color:#333}
+.total span var{font-size:30px;vertical-align:middle}
+.total .visit{position:relative;width:154px;margin-right:50px}
+.total .visit:after{content:"";position:absolute;top:32px;right:0;width:1px;height:20px;background:#ccc}
+.notice h3{padding-bottom:10px;border-bottom:1px solid #e6e6e6;font-size:16px}
+.notice .notice-list{border-bottom:1px solid #e6e6e6;padding:10px 0}
+.notice .notice-list li{height:36px;line-height:36px;font-size:14px}
+.notice .notice-list li span{display:inline-block;color:#999;margin-right:12px}
+.notice .notice-list li a{display:inline-block;height:36px;color:#333}
+.notice .notice-list li a:hover{cursor:pointer;text-decoration:underline;color:#58c0a8}
+
 
 /*第二页 注册页面*/
+
 .register{width:1000px;margin:0 auto 100px}
 .register li{margin-top:20px;clear:both;overflow:hidden}
 .register .notes p{padding-left:130px;font-size:12px;line-height:20px;color:#666;background:url(../img/alert.png) no-repeat 100px 0}
 .register div{float:left;width:90px;padding-right:10px;font-size:14px;font-weight:700;text-align:right;line-height:50px}
-.register input{width:188px;height:50px;padding:16px 20px;font-size:14px;border:1px solid #c2c2c2}
+.register input,.register select{width:188px;height:50px;padding:16px 20px;font-size:14px;border:1px solid #c2c2c2}
 .register span{color:#f33;font-size:12px;margin-left:10px}
 .register .name input{width:440px}
 .register .location input{width:588px}
 .email input{width:277px}
-.register .image .upload-button{display:inline-block;width:100px;height:40px;margin-left:0;line-height:40px;font-size:16px;color:#666;text-align:center;border:1px solid #c2c2c2;border-radius:4px;cursor:pointer;background-color:#f0f0f0}
+.register .image .upload-button{position:relative;display:inline-block;width:100px;height:40px;margin-left:0;line-height:40px;font-size:16px;color:#666;text-align:center;border:1px solid #c2c2c2;border-radius:4px;cursor:pointer;background-color:#f0f0f0}
+.register .img-list{padding-left:100px;clear:both;overflow:hidden}
+.register .img-list figure{float:left;width:180px;height:100px;margin-right:20px}
+.register .img-list figure img{max-width:100%}
+.register .upload-button input{position:absolute;top:0;left:0;width:100px;height:40px;padding:0;opacity:0}
 .register .image .notes{margin-left:10px;font-size:14px;color:#999;margin-right:200px}
 .register .introduction{position:relative;width:588px;height:166px}
-.register .introduction textarea{width:588px;height:166px;padding:16px;resize:none;border:1px solid #c2c2c2;box-sizing: border-box;}
+.register .introduction textarea{width:588px;height:166px;padding:16px;resize:none;border:1px solid #c2c2c2;box-sizing:border-box}
 .register .introduction span{position:absolute;right:20px;bottom:10px;line-height:14px;margin:0;color:#999}
 .register .submit{width:140px;height:40px;margin-left:100px;font-size:14px;color:#fff;background-color:#2bb598;cursor:pointer}
+
 
 
 /* 第一页 登录页面 */
@@ -97,14 +113,33 @@
 .login-box .greet{margin-top:40px;text-align:center}
 .impot-box .name{position:absolute;left:0;top:0;color:#999;line-height:50px;overflow:hidden}
 .impot-box input{padding:16px 0 14px;height:18px;width:100%;box-sizing:content-box}
-.impot-box .name img{margin:0 18px;vertical-align: middle}
-.impot-box .error{position:absolute;top:55px;left:11px;color:#f33;font-size:12px}
+.impot-box .name img{margin:0 18px;vertical-align:middle}
+.impot-box .login-error{position:absolute;top:55px;left:11px;color:#f33;font-size:12px;display: none}
 .login-box .code{margin-top:30px;color:#2e7ecd;font-size:14px}
 .login-box .code input{width:150px;height:50px;padding:16px 10px;vertical-align:middle;border:1px solid #c2c2c2}
 .login-box .code .img{display:inline-block;width:100px;height:50px;line-height:50px;text-align:center;vertical-align:middle}
-.login-box .code .img img{vertical-align: middle}
+.login-box .code .img img{vertical-align:middle}
 .login-box .code>a{color:#2e7ecd;font-size:14px}
-.login-box .button{width:400px;height:50px;color:#fff;margin-top:30px;text-align:center;line-height:50px;background-color:#2bb598}
+.login-box .button{width:400px;height:50px;color:#fff;margin-top:30px;border:none;text-align:center;line-height:50px;outline:0;background-color:#2bb598}
 .menu{margin-top:8px;text-align:right}
 .menu>a{font-size:14px;color:#2e7ecd}
 .forget-pass{margin-left:10px;padding-left:10px;border-left:1px solid #ccc}
+
+
+
+/*翻页*/
+.page{padding:20px 0 40px;height:30px;line-height:30px;text-align:center;vertical-align:top}
+.page em{color:#333;margin-right:12px;font-size:12px}
+.page .page-list{display:inline-block;font-size:0;margin-right:20px;vertical-align:top}
+.page .page-list a,.page .page-list span{border:1px solid #e6e6e6;border-right:none;height:30px;text-align:center;line-height:30px;box-sizing:border-box;display:inline-block;color:#333;font-size:12px;cursor:pointer}
+.page .page-list span{width:67px}
+.page .page-list span.page-over{color:#ccc}
+.page .page-list span:last-child{border-right:1px solid #e6e6e6}
+.page .page-list a{cursor:pointer;width:38px}
+.page .page-list a:hover,.page .page-list span:hover{color:#2bb598;cursor:pointer}
+.page .page-list a.current{background-color:#2bb598;color:#fff;border:none;border-radius:2px}
+.page form{display:inline-block;font-size:0;color:#999;line-height:30px;height:30px;vertical-align:top}
+.page form span{font-size:12px;line-height:30px;display:inline-block;vertical-align:top}
+.page form label{display:inline-block;width:38px;height:30px;border:1px solid #e6e6e6;overflow:hidden;box-sizing:border-box;margin:0 10px}
+.page form label input{width:100%;height:28px;line-height:28px;text-align:center}
+.page form .go-view{display:inline-block;vertical-align:top;width:40px;height:30px;border:1px solid #e6e6e6;overflow:hidden;margin-left:10px;cursor:pointer}

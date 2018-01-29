@@ -20,14 +20,17 @@ class M_log extends MY_Model {
 
 	public function add($data)
 	{
-		if (!$data['log_time']) {
+		if (!isset($data['log_time']) || !$data['log_time']) {
 			$data['log_time'] = TIMESTAMP;
 		}
-		if (!$data['log_ip']) {
+		if (!isset($data['log_ip']) || !$data['log_ip']) {
 			$data['log_ip'] = CLIENTIP;
 		}
 		if (!isset($data['uid']) || !$data['uid']) {
 			$data['uid'] = $this->user['id'];
+		}
+		if (isset($data['log_params']) && is_array($data['log_params'])) {
+			$data['log_params'] = json_encode($data['log_params']);
 		}
 
 		$this->db->insert($this->table, $data);

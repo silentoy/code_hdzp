@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://www.haidianzhaopin.com/';
+$config['base_url'] = 'http://www.hdzp.com/';
 
 /*
 |--------------------------------------------------------------------------
@@ -401,7 +401,7 @@ $config['sess_regenerate_destroy'] = FALSE;
 |
 */
 $config['cookie_prefix']	= 'hdzp_';
-$config['cookie_domain']	= $_SERVER['HTTP_HOST'] == 'www.haidianzhaopin.com' ? '.haidianzhaopin.com' : '.haidianzhaopin.com';
+$config['cookie_domain']	= $_SERVER['HTTP_HOST'] == '.hdzp.com';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;
@@ -432,7 +432,7 @@ $config['standardize_newlines'] = FALSE;
 |          for backwards compatibility purposes!
 |
 */
-$config['global_xss_filtering'] = FALSE;
+$config['global_xss_filtering'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------

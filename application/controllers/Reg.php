@@ -97,14 +97,14 @@ class Reg extends MY_Controller {
 
 
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('name', '公司名称', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('address', '公司地址', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('tagid', '公司地点标签', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('master', '招聘负责人', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('tel', '联系电话', 'trim|required|max_length[11]|xss_clean');
-		$this->form_validation->set_rules('email', '电子邮箱', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('license', '营业执照副本', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('intro', '公司简介', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('name', '公司名称', 'trim|required');
+		$this->form_validation->set_rules('address', '公司地址', 'trim|required');
+		$this->form_validation->set_rules('tagid', '公司地点标签', 'trim|required');
+		$this->form_validation->set_rules('master', '招聘负责人', 'trim|required');
+		$this->form_validation->set_rules('tel', '联系电话', 'trim|required|max_length[11]');
+		$this->form_validation->set_rules('email', '电子邮箱', 'trim|required');
+		$this->form_validation->set_rules('license', '营业执照副本', 'trim|required');
+		$this->form_validation->set_rules('intro', '公司简介', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE){
 

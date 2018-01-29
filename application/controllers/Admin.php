@@ -8,7 +8,7 @@ class Admin extends MY_Controller {
 		parent::__construct();
 
 		if (!$this->user['id'] || $this->user['groupid']!=1) {
-			header('HTTP/1.0 403 Forbidden');
+			header('location:/index.php?c=login');
 			exit();
 		}
 		$this->load->model('M_company');
@@ -547,9 +547,9 @@ class Admin extends MY_Controller {
 		$param['cid']			= $this->input->post('cid', TRUE);
 
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('name', '职位名称', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('intro', '工作职责', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('requirement', '岗位要求', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('name', '职位名称', 'trim|required');
+		$this->form_validation->set_rules('intro', '工作职责', 'trim|required');
+		$this->form_validation->set_rules('requirement', '岗位要求', 'trim|required');
 
 
 		if ($this->form_validation->run() == FALSE){
@@ -568,7 +568,7 @@ class Admin extends MY_Controller {
 		$param['status']		= $this->input->post('status', TRUE);
 
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('name', '标签名称', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('name', '标签名称', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE){
 			echojsondata('err', false, '提交参数错误！');
@@ -587,8 +587,8 @@ class Admin extends MY_Controller {
 		$param['status']        = $this->input->post('status', TRUE);
 
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('subject', '标题', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('subject', '内容', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('subject', '标题', 'trim|required');
+		$this->form_validation->set_rules('subject', '内容', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE){
 			echojsondata('err', false, '提交参数错误！');

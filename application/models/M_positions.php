@@ -34,7 +34,7 @@ class M_positions extends MY_Model
         $params['lng'] = isset($params['lng']) ? $params['lng'] : 0;
 
         $sql = "select p.id as pid,p.cid,p.name as position_name,p.wage_min,p.wage_max,p.wage_type,c.name as company_name,c.tagid,p.addtime,p.status,p.`intro`,p.`requirement`,p.views,p.ask_type,c.tel,c.email ";
-        if ($params['lat'] && $params['lng']) {
+        if (isset($params['lat']) && isset($params['lng']) && $params['lat'] && $params['lng']) {
             $sql .= ",( 6371 * acos( cos( radians('{$params['lat']}') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians('{$params['lng']}') ) + sin( radians('{$params['lat']}') ) * sin( radians( lat ) ) ) ) AS distance ";
         }
         $sql .= "from hdzp_positions as p INNER JOIN hdzp_company as c on p.cid=c.id WHERE p.id='{$params['pid']}' and p.status>=2";
@@ -62,7 +62,7 @@ class M_positions extends MY_Model
         }
 
         $sql = "select p.id as pid,p.cid,p.name as position_name,p.wage_min,p.wage_max,p.wage_type,c.name as company_name,c.tagid,p.addtime,p.status,p.ask_type,c.tel,c.email";
-        if ($params['lat'] && $params['lng']) {
+        if (isset($params['lat']) && isset($params['lng']) && $params['lat'] && $params['lng']) {
             $sql .= ",( 6371 * acos( cos( radians('{$params['lat']}') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians('{$params['lng']}') ) + sin( radians('{$params['lat']}') ) * sin( radians( lat ) ) ) ) AS distance ";
         }
         $sql .= " from hdzp_positions as p INNER JOIN hdzp_company as c on p.cid=c.id WHERE " . $this->_buildWhere($params) . " order by p.addtime desc limit {$params['start']}, {$params['num']}";
