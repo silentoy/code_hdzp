@@ -290,7 +290,7 @@ function checkTraditional($str, $charset='gbk') {
 function createPassword($pw_length = 8){
     $randpwd = '';
     for ($i = 0; $i < $pw_length; $i++) {
-        $randpwd .= chr(mt_rand(33, 126));
+        $randpwd .= chr(mt_rand(65, 90));
     }
     return $randpwd;
 }
@@ -348,10 +348,10 @@ function curlpage($url, $postdata = '', $timeout = 2, $post = true, $header = ar
 
     $data = curl_exec($ch);
     curl_close($ch);
-    if ($_REQUEST['geturl']) {
+    if (isset($_REQUEST['geturl'])) {
         var_dump($url);
     }
-    if ($_REQUEST['geturldata']) {
+    if (isset($_REQUEST['geturldata'])) {
         var_dump($data);
     }
     return $data;

@@ -1,8 +1,25 @@
 (function() {
   // var ajaxUrl = 'http://www.hdzp.com'
   // var ajaxUrl = ''
-  // 第一页
 
+  //关闭弹层
+  var $mask = $('.mask')
+  var shutBox = $('.shutBox')
+  var determine = $('.determine')
+  var $cancel = $('.cancel')
+  shutBox && shutBox.bind('click',function(){
+    $mask.hide()
+  })
+  determine && determine.bind('click',function(){
+    $mask.hide()
+  })
+  $cancel && $cancel.bind('click',function(){
+    console.log($mask)
+    $mask.hide()
+  })
+
+
+  //第一页 登录
   var loginUser = $('#loginUser')
   var loginPass = $('#loginPass')
   var loginCode = $('#loginCode')
@@ -30,20 +47,58 @@
     })
   })
 
+//注册页面
+
+
   // 第二页
-// 图片上传
-var upImg = $('#upImg')
+// 注册页面
+var regBtn = $('#regBtn')
+var upImg = $('.upLoadImg')
 var imgList = $('#imgList')
-upImg.bind('change',function(ele){
+var regLicense = $('#regLicense')
+var regLicenseNumber = $('#regLicenseNumber')
+var tagList = $('#selectTags li')
+var tagWrapper = $('#selectTags em')
+var imgSrc = ''
+var tags = $('#tags')
+var tagid = [] //注册存储地点的标签
+var tagidName = []
+tagList && tagList.bind('click',function(event){
+  var target = event.target
+  var allow = false
+  var number = 0
+  $(tagid).each(function(index,ele){
+    if(ele === $(target).data('id')){
+      allow = true
+      number = index
+    }
+  })
+  //如果已经有了，删除掉
+  if(allow){
+    tagid.splice(number,1)
+    tagidName.splice(number,1)
+  } else{
+    tagid.push($(target).data('id'))
+    tagidName.push($(target).html())
+  }
+  //查看是否有选中的标签
+  if(tagid.length){
+    tagWrapper.html(tagidName.join(','))
+    tagWrapper.addClass('active')
+  } else{
+    tagWrapper.html('请选择公司地点标签')
+    tagWrapper.removeClass('active')
+  }
+  console.log(tagid,'tagid')
+})
+// 图片上传
+upImg && upImg.bind('change',function(ele){
   var file = this.files[0]
   var reader = new FileReader();
 
   var formData = new FormData();
 
   formData.append("userfile",file);
-  console.log(upImg.val(),'upImg.val()')
-
-  console.log(formData,'formData')
   // 图片上传
   $.ajax({
     url:'/index.php?c=upload&m=onupload',
@@ -55,9 +110,99 @@ upImg.bind('change',function(ele){
     success:function(res){
       console.log(res)
       if(res.status === 'ok'){
-        var figure = document.createElement('figure')
-        figure.innerHTML = '<img src="' + res.info.url + '">'
-        imgList.append(figure)
+        // 赋值图片路径 并且创建预览
+        imgSrc = res.info.url
+        imgList.find('figure').html('<img src="' + res.info.url + '">')
+        imgList.show()
+      }
+    }
+  })
+})
+//计算公司简介字符
+regLicense && regLicense.bind('input',function(){
+  regLicenseNumber.html(regLicense.val().length)
+})
+// 点击注册
+regBtn && regBtn.bind('click',function(){
+  var formData = new FormData($('form').get(0))
+  formData.append('license',imgSrc)
+  formData.append('tagid',JSON.stringify(tagid))
+  var $input = $('input')
+  var o = {
+    allow:true,
+    text:''
+  }
+
+  // 验证必填
+  $input.each(function(index, ele) {
+    if(ele.type === 'text' && ele.value === '' && o.allow){
+      o.allow = false
+      console.log(ele)
+      console.log($(ele).next())
+      alert($(ele).next().html())
+    }
+    //验证手机号
+    if(ele.name === 'tel' && ele.value != '' && !ele.value.match(/^1[0-9]{10}$/)){
+      o.allow = false
+      alert('请输入正确的手机号')
+    }
+    //验证邮箱
+    if(ele.name === 'email' && ele.value != '' && !ele.value.match(/^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/)){
+      o.allow = false
+      alert('请输入正确的邮箱地址')
+    }
+  })
+
+  //验证选择地点标签
+  if(!tagid.length && o.allow){
+    o.allow = false
+    alert('最少选择一个地点标签')
+  }
+
+  //验证是否上传营业执照
+  if(imgSrc === '' && o.allow){
+    o.allow = false
+    alert('请上传营业执照')
+  }
+
+  //验证是否填写公司简介
+  if(regLicense.val() === '' && o.allow){
+    o.allow = false
+    alert('请填写公司简介')
+  }
+
+  if(!o.allow){
+    return
+  }
+
+  $.ajax({
+    url:'/index.php?c=reg&m=onreg',
+    data:$('form').serialize() + '&license=' + imgSrc + '&tagid=' + tagid.join(','),
+    type:'post',
+    dataType:'json',
+    success:function(ele){
+      if(ele.status === 'ok'){
+        $('form input').val('')
+        // 清空选择地点标签信息
+        tagWrapper.html('')
+        tagid = []
+        tagidName = []
+
+        //清除图片信息
+        imgSrc = ''
+        imgList.find('figure').html('')
+        imgList.hide()
+
+        //清除公司简介
+        $('form textarea').val('')
+        //显示弹层
+        var regSuccess = $('#regSuccess')
+        regSuccess.find('em').html(ele.info.password)
+        regSuccess.show()
+      } else{
+        var errorPop = $('#errorPop')
+        errorPop.find('.mask-content p').html(ele.msg)
+        errorPop.show()
       }
     }
   })
@@ -101,7 +246,6 @@ upImg.bind('change',function(ele){
   //发布职位
   var addPosition = $('#addPosition')
   var mask = $('#mask')
-  var addPositionBtn = $('#addPositionBtn')
   //点击添加职位
   addPosition && addPosition.bind('click',function(){
     $.ajax({
@@ -125,59 +269,52 @@ upImg.bind('change',function(ele){
       }
     })
   })
-  //点击确定，关闭弹层
-  addPositionBtn && addPositionBtn.bind('click',function(){
-    mask.hide()
-  })
 
   // 第五页
   // 点击删除按钮
-  var mask = $('#mask')
-  var maskTitle = $('#mask .title p')
-  var maskContent = $('#mask .mask-content p')
-  var deleteBtn = $('.delete')
-  var determine = $('#determine')
+  var handleMask = $('#handleMask')
+  var handleOk = $('#handleOk')
+  var handlePrompt = {}
+  var handleBtn = $('.shelf')
+  var current = null
+  var handleParent = null
   var shelf = $('.shelf')
-  var shutBox = $('.shutBox')
-  //点击删除按钮，显示弹层
-  deleteBtn && deleteBtn.bind('click',function(){
-    maskTitle.html('职位删除')
-    maskContent.html('确定要删除吗？')
-    mask.show()
-    determine.attr('data-id',$(this).data('id'))
-    determine.attr('data-type','remove')
-  })
-  //点击下架
-  shelf && shelf.bind('click',function(){
-    maskTitle.html('职位下架')
-    maskContent.html('确定要下架吗？')
-    mask.show()
-    determine.attr('data-id',$(this).data('id'))
-    determine.attr('data-type','shelf')
-  })
+  var droptOk = $('#droptOk')
+  var handleData = {}
 
-  //点击确定 && 删除
-  determine && determine.bind('click',function(){
-    let type = determine.data('id')
-    //下架
-    if(type === 'shelf'){
-
-    }else {
-    // 删除
-
+  //点击操作按钮，显示弹层
+  handleBtn && handleBtn.bind('click',function(){
+    var $this = $(this)
+    handleParent = $this.parent().parent()
+    current = $this
+    handleData = {
+      id:handleParent.data('id'),
+      status:$this.attr('data-type')
     }
+    console.log(handleData,'handleData')
+    handleMask.find('em').html($this.html())
+    handleMask.show()
+  })
+  // 点击删除弹层确定按钮
+  handleOk && handleOk.bind('click',function(){
     $.ajax({
-      url:'',
-      type:'post',
-      data:'',
-      dataType:'json',
+      url:'/index.php?c=hr&m=positionUpdate',
+      data:handleData,
+      type:'get',
+      dataType:'JSON',
       success:function(ele){
-
+        if(ele.status === 'ok'){
+          if(handleData.status == 1){
+            handleParent.find('.status').html('已下线')
+            current.html('上线').attr('data-type',2)
+          }else if(handleData.status == 2){
+            handleParent.find('.status').html('已上线')
+            current.html('下架').attr('data-type',1)
+          }else if(handleData.status == -1){
+            handleParent.remove()
+          }
+        }
       }
     })
-  })
-  // 点击关闭弹窗
-  shutBox && shutBox.bind('click',function(){
-    mask.hide()
   })
 })()

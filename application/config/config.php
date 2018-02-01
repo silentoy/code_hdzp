@@ -401,7 +401,7 @@ $config['sess_regenerate_destroy'] = FALSE;
 |
 */
 $config['cookie_prefix']	= 'hdzp_';
-$config['cookie_domain']	= $_SERVER['HTTP_HOST'] == '.hdzp.com';
+$config['cookie_domain']	= ENVIRONMENT=='development' ? '.hdzp.com' : '.haidianzhaopin.com';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;

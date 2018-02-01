@@ -507,7 +507,7 @@ class Admin extends MY_Controller {
 
 	public function noticeAdd()
 	{
-		$this->load->model('M_Notice');
+		$this->load->model('M_notice');
 		$param = $this->getNoticeData();
 
 		if ($id = $param['id']) {

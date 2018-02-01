@@ -41,9 +41,9 @@
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="/index.php?c=hr&m=vip">
                     <i class="nav4"></i>
-                    标签和通知管理
+                    升级VIP
                 </a>
             </li>
         </ul>

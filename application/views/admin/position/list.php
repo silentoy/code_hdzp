@@ -43,8 +43,8 @@
                 <td data-id="<?=$item['status'];?>"> <span class="waiting"><?=positionStatus($item['status']);?></span> </td>
                 <td><?=$item['views']?></td>
                 <td>
-                    <a href="javascript:;">编辑</a>
-                    <a href="javascript:;">删除</a>
+                    <a href="javascript:;" class="edit">编辑</a>
+                    <a href="javascript:;" class="closetd" data-id="<?=$item['status'];?>">删除</a>
                 </td>
                 <td><?=$item['company_name'];?></td>
             </tr>
@@ -77,9 +77,9 @@
 </div>
 
 <!-- 弹窗 -->
-<div class="toast" style="display: none;">
+<form action="/index.php?c=admin&m=onadd" class="toast" style="display:none;" id="newsome">
     <h4>职位状态编辑 <em class="close">X</em></h4>
-    <div class="toast-content">
+    <div class="toast-content" id="typelists">
         <ul>
             <li class="selected">
                 <i></i>
@@ -99,13 +99,26 @@
             </li>
         </ul>
         <div class="buttons">
-            <span class="save">保存</span>
+            <button class="save">保存</button>
             <span class="cancel">取消</span>
         </div>
     </div>
+    <input type="hidden" name="status" value="" />
+    <input type="hidden" name="id" value="" />
+</form>
 
+<div class="toast is-deleted" data-url="" style="display:none;">
+    <h4>删除 <em class="close">X</em></h4>
+    <div class="toast-content">
+        <p>确定要删除吗？</p>
+        <div class="buttons">
+            <span class="save" id="delete_btn">确定</span>
+            <span class="cancel">取消</span>
+        </div>
+    </div>
 </div>
-<i class="layer" style="display: none;"></i>
+<i class="layer" id="layer" style="display:none;"></i>
 </body>
-
+<script src="<?=BASEURL;?>/static/js/admin/public.js"></script>
+<script src="<?=BASEURL;?>/static/js/admin/job.js"></script>
 </html>

@@ -53,7 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+define('ENVIRONMENT', $_SERVER['HTTP_HOST']=='www.hdzp.com' ? 'development' : 'production');
 
 /*
  *---------------------------------------------------------------
@@ -225,7 +225,7 @@ define('FCPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 // Name of the "system" directory
 define('SYSDIR', basename(BASEPATH));
 
-define('BASEURL', 'http://www.hdzp.com');
+define('BASEURL', '//'.$_SERVER['HTTP_HOST']);
 
 // The path to the "application" directory
 if (is_dir($application_folder)) {

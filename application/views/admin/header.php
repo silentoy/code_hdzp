@@ -22,6 +22,8 @@
     <?php if (isset($_GET['m']) && $_GET['m']=='taglist') { ?>
         <link rel="stylesheet" href="<?= BASEURL; ?>/static/css/style-tags.css" />
     <?php } ?>
+
+    <script src="<?=BASEURL;?>/static/js/jquery.js"></script>
 </head>
 
 <body>
@@ -43,21 +45,27 @@
 <div class="nav-view">
     <ul>
         <li class="selected">
-            <a href="">
+            <a href="/index.php?c=admin">
                 <i class="nav1"></i>
                 公司管理
             </a>
         </li>
         <li>
-            <a href="">
+            <a href="/index.php?c=admin&m=positionlist">
                 <i class="nav2"></i>
                 职位管理
             </a>
         </li>
         <li>
-            <a href="">
+            <a href="/index.php?c=admin&m=taglist">
                 <i class="nav3"></i>
-                标签和通知管理
+                标签管理
+            </a>
+        </li>
+        <li>
+            <a href="/index.php?c=admin&m=noticelist">
+                <i class="nav3"></i>
+                通知管理
             </a>
         </li>
     </ul>

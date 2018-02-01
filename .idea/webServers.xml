@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="363f1bcb-dcdf-4df2-847f-f07f9e51826c" name="hdzp" url="http://111.231.100.29">
+        <fileTransfer host="111.231.100.29" port="21" password="dfe6dfe0df9cdffadfeedfc4dfc8df9edfcddff9dfebdfc1dffcdfd8df99dfc0" username="haidianzhaopin">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

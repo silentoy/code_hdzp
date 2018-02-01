@@ -127,7 +127,7 @@ class Hr extends MY_Controller {
 	public function positionList()
 	{
 		$data = array();
-		$pre_page = 1;
+		$pre_page = 20;
 		$page = (int)$this->input->get('page', TRUE);
 		$data['page'] = $page ? $page : 1;
 
@@ -135,7 +135,7 @@ class Hr extends MY_Controller {
 		if ($data['total']) {
 			$start = ($data['page']-1) * $pre_page;
 
-			$data['list'] = $this->M_positions->getList(array('cid'=>$this->hrInfo['id']), $start, $pre_page);
+			$data['list'] = $this->M_positions->getList(array('cid'=>$this->hrInfo['id'], 'status>='=>0), $start, $pre_page);
 
 			//分页
 			$this->load->library('pagination');

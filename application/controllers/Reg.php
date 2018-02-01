@@ -12,7 +12,11 @@ class Reg extends MY_Controller {
 
 	public function index()
 	{
-		$this->load->view('reg');
+		$this->load->model('M_Tag');
+
+		$data = array();
+		$data['tags'] = $this->M_Tag->getList(array('status'=>0), 0, 1000, 'orderby desc, id asc');
+		$this->load->view('reg', $data);
 	}
 
 	public function onReg()
@@ -40,6 +44,7 @@ class Reg extends MY_Controller {
 				'groupid' => 2
 			);
 			$uid = $this->M_user->add($user);
+
 			if (!$uid) {
 				echojsondata('err', false, '注册失败,请联系管理员');
 			}
@@ -49,6 +54,7 @@ class Reg extends MY_Controller {
 
 		//获取地址经纬度
 		$location = getLocation($param['address']);
+
 
 		//写入公司表
 		$company = array(
@@ -85,10 +91,11 @@ class Reg extends MY_Controller {
 	private function getFromData(){
 		$param = array();
 
+		//var_dump($this->input->post());die();
 		$param['uid'] 		= (int)$this->input->post('uid', TRUE);
 		$param['name'] 		= $this->input->post('name', TRUE);
 		$param['address'] 	= $this->input->post('address', TRUE);
-		$param['tagid']  	= implode(',', $this->input->post('tagid', TRUE));
+		$param['tagid']  	= is_array($this->input->post('tagid', TRUE)) ? implode(',', $this->input->post('tagid', TRUE)) : $this->input->post('tagid', TRUE);
 		$param['master']    = $this->input->post('master', TRUE);
 		$param['tel']	    = $this->input->post('tel', TRUE);
 		$param['email']	    = $this->input->post('email', TRUE);
@@ -108,11 +115,7 @@ class Reg extends MY_Controller {
 
 		if ($this->form_validation->run() == FALSE){
 
-			if (!$param['username']) {
-				$msg   = '用户名有误！';
-			} else {
-				$msg   = '提交参数错误！';
-			}
+			$msg   = '提交参数错误！';
 			echojsondata('err', false, $msg);
 
 		}

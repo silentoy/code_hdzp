@@ -24,11 +24,10 @@
 .position-list tbody td:first-child{text-align:left;padding-left:20px}
 .position-list tbody td{height:37px;line-height:37px;font-size:14px;color:#333;text-align:center;border:1px solid #ededed}
 .position-list tbody .go-online{color:#2bb598}
-.position-list tbody td:last-child span{color:#188aed}
-.position-list tbody td:last-child span:hover{color:#f33;cursor:pointer;text-decoration:underline}
-.position-list tbody td:last-child .modify{margin-right:32px}
-.position-list tbody td:last-child .shelf{margin-right:36px}
-.mask{position:absolute;top:50%;left:50%;margin:-95px 0 0 -163px;min-width:326px;text-align:center;background:#fff;border-radius:2px;box-shadow:0 0 8px 6px rgba(0,0,0,.2);display: none}
+.position-list tbody td span,.position-list tbody td a{color:#188aed;margin-right:32px}
+.position-list tbody td span:hover{color:#f33;cursor:pointer;text-decoration:underline}
+.position-list tbody td span:last-child,.position-list tbody td a:last-child{margin-right:0}
+.mask{position:fixed;top:50%;left:50%;margin:-95px 0 0 -163px;min-width:326px;text-align:center;background:#fff;border-radius:2px;box-shadow:0 0 8px 6px rgba(0,0,0,.2);display: none}
 .mask .title{height:42px;line-height:42px;border-bottom:1px solid #e6e6e6;overflow:hidden;padding:0 20px;font-size:14px;color:#999}
 .mask .title p{line-height:43px;float:left}
 .mask .title span{float:right;width:12px;height:12px;background:url(../img/close.png) no-repeat;background-size:100%;font-size:0;margin-top:16px;cursor:pointer}
@@ -83,16 +82,27 @@
 /*第二页 注册页面*/
 
 .register{width:1000px;margin:0 auto 100px}
-.register li{margin-top:20px;clear:both;overflow:hidden}
+.register li{margin-top:20px;clear:both; overflow:hidden;}
+.register .selectTags{overflow: visible;}
+.register .selectTags span{display:inline-block;height:50px;line-height:50px;}
 .register .notes p{padding-left:130px;font-size:12px;line-height:20px;color:#666;background:url(../img/alert.png) no-repeat 100px 0}
 .register div{float:left;width:90px;padding-right:10px;font-size:14px;font-weight:700;text-align:right;line-height:50px}
-.register input,.register select{width:188px;height:50px;padding:16px 20px;font-size:14px;border:1px solid #c2c2c2}
+.register input,.register .select{width:188px;height:50px;padding:16px 20px;font-size:14px;border:1px solid #c2c2c2}
+.register .select{min-width:188px;width:auto;max-width:500px;position:relative;box-sizing: border-box;line-height: 16px;text-align: left;font-size:14px;color:#999;font-weight: normal;}
+.register .select>em{display: blcok;}
+.register .select>.active{color:#333;}
+.register .select ul{position:absolute;left:-1px;top:48px;right:-1px;background-color:#fff;font-size:14px;border:1px solid #c2c2c2;display: none;}
+.register .select ul{max-height: 220px;overflow: auto;}
+.register .select:hover ul{display: block}
+.register .select li{line-height: 50px;height: 50px; color:#333;box-sizing: border-box;padding:0 20px;margin-top: 0;font-size: 14px;border-bottom: 1px solid #c2c2c2;}
 .register span{color:#f33;font-size:12px;margin-left:10px}
 .register .name input{width:440px}
 .register .location input{width:588px}
 .email input{width:277px}
 .register .image .upload-button{position:relative;display:inline-block;width:100px;height:40px;margin-left:0;line-height:40px;font-size:16px;color:#666;text-align:center;border:1px solid #c2c2c2;border-radius:4px;cursor:pointer;background-color:#f0f0f0}
-.register .img-list{padding-left:100px;clear:both;overflow:hidden}
+.register .img-list{padding-left:100px;clear:both;overflow:hidden;display: none}
+.register .img-list > span{position:relative;display:inline-block;color:#2e7ecd;height:100px;line-height:100px;width:150px;}
+.register .img-list > span input{position:absolute;left:0;top:0;right:0;bottom:0;opacity: 0}
 .register .img-list figure{float:left;width:180px;height:100px;margin-right:20px}
 .register .img-list figure img{max-width:100%}
 .register .upload-button input{position:absolute;top:0;left:0;width:100px;height:40px;padding:0;opacity:0}
@@ -100,8 +110,8 @@
 .register .introduction{position:relative;width:588px;height:166px}
 .register .introduction textarea{width:588px;height:166px;padding:16px;resize:none;border:1px solid #c2c2c2;box-sizing:border-box}
 .register .introduction span{position:absolute;right:20px;bottom:10px;line-height:14px;margin:0;color:#999}
-.register .submit{width:140px;height:40px;margin-left:100px;font-size:14px;color:#fff;background-color:#2bb598;cursor:pointer}
-
+.register .submit{width:140px;height:40px;line-height:40px;text-align:center;margin-left:100px;font-size:14px;color:#fff;background-color:#2bb598;cursor:pointer}
+.reg-success em{color:#ff3333;}
 
 
 /* 第一页 登录页面 */
@@ -132,9 +142,9 @@
 .page em{color:#333;margin-right:12px;font-size:12px}
 .page .page-list{display:inline-block;font-size:0;margin-right:20px;vertical-align:top}
 .page .page-list a,.page .page-list span{border:1px solid #e6e6e6;border-right:none;height:30px;text-align:center;line-height:30px;box-sizing:border-box;display:inline-block;color:#333;font-size:12px;cursor:pointer}
-.page .page-list span{width:67px}
+.page .page-list .prev-page,.page .page-list .next-page{width:67px}
 .page .page-list span.page-over{color:#ccc}
-.page .page-list span:last-child{border-right:1px solid #e6e6e6}
+.page .page-list .next-page{border-right:1px solid #e6e6e6}
 .page .page-list a{cursor:pointer;width:38px}
 .page .page-list a:hover,.page .page-list span:hover{color:#2bb598;cursor:pointer}
 .page .page-list a.current{background-color:#2bb598;color:#fff;border:none;border-radius:2px}
