@@ -25,12 +25,22 @@ $(function() {
     // 删除
     var tag_listCloses = $('#tag_list li span');
 
-    tag_listCloses.on('click', function(e) {
+    tag_listCloses.on('click', function() {
+        $('.is-deleted').show();
+        $('.is-deleted').attr('data-id', $(this).next().data('id'));
+        $('.is-deleted').attr('data-name', $(this).next().html());
+        $layer.show();
+    });
+
+    // 确定删除
+    $('#delete_btn').on('click', closeAjax);
+    // ajax
+    function closeAjax() {
         $.ajax({
             url: $('#tag_list').data('url'),
             data: {
-                id: $(this).parent().data('id'),
-                name: $(this).next().html(),
+                id: $('.is-deleted').data('id'),
+                name: $('.is-deleted').data('name'),
                 status: 1,
             },
             type: "POST",
@@ -49,7 +59,7 @@ $(function() {
                 alert('网络不好，请稍后再试！')
             }
         })
-    });
+    }
 
     // 编辑
     var form = $('#newsome');
@@ -93,5 +103,48 @@ $(function() {
             parentFind(par, calssName)
         }
     }
+    //拖拽完成后
+    var tagsWrapper = $('#tag_list')
+        // tagsWrapper.dragsort()
+    $("#tag_list").dragsort({
+        dragSelector: "p",
+        dragBetween: true,
+        dragEnd: saveOrder,
+        placeHolderTemplate: "<li></li>",
+        scrollSpeed: 5
+    });
+    //拖拽完成后
+    function saveOrder() {
+        // array(array('id'=>1, 'orderby'=>4), array('id'=>2, 'orderby'=>3))
+        var _array = [];
+        var _length = $("#tag_list p").length - 1;
+        $("#tag_list p").each(function(i, ele) {
+            var id = $(ele).data('id');
+            _array.push({
+                id: id,
+                orderby: _length - i
+            });
+        });
+
+        $.ajax({
+            url: '/index.php?c=admin&m=tagorder',
+            data: { order: _array },
+            type: "POST",
+            success: function(res) {
+                if (typeof(res) == 'string') {
+                    var res = JSON.parse(res);
+                }
+                if (res.status == 'ok') {
+                    // 刷新页面
+                    location.href = location.href;
+                } else {
+                    alert(res.msg)
+                }
+            },
+            error: function(res) {
+                alert('网络不好，请稍后再试！')
+            }
+        })
+    };
 
 })

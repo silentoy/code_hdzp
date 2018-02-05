@@ -16,7 +16,7 @@
         </h1>
     </div>
     <form action="/index.php?c=reg&m=onreg">
-        <ul class="register">
+        <ul class="register" id="register">
             <li class="notes">
                 <p>注册过程中遇到任何问题，可以联系客服: 15901071586 </p>
             </li>
@@ -25,14 +25,14 @@
                     公司名称
                 </div>
                 <input type="text" name="name" placeholder="请填写公司或机构名称">
-                <span>请填写公司名称</span>
+                <span class="reg-error">请填写公司名称</span>
             </li>
             <li class="location">
                 <div>
                     公司地址
                 </div>
                 <input type="text" name="address" placeholder="请填写公司地址">
-                <span>请填写公司地址</span>
+                <span class="reg-error">请填写公司地址</span>
             </li>
             <li class="selectTags">
                 <div>
@@ -47,28 +47,28 @@
                     </ul>
                 </div>
                 <!-- <input type="text" name="tagid[]" placeholder=""> -->
-                <span>请选择地点标签</span>
+                <span class="reg-error">请选择地点标签</span>
             </li>
             <li>
                 <div>
                     招聘负责人
                 </div>
                 <input type="text" name="master" placeholder="请填写真实姓名">
-                <span>请填写负责人姓名</span>
+                <span class="reg-error">请填写负责人姓名</span>
             </li>
             <li>
                 <div>
                     联系电话
                 </div>
                 <input type="text" name="tel" placeholder="请填写联系电话">
-                <span>请填写联系电话</span>
+                <span class="reg-error">请填写联系电话</span>
             </li>
             <li class="email">
                 <div>
                     电子邮箱
                 </div>
                 <input type="text" name="email" placeholder="请填写简历接收邮箱">
-                <span>请填写邮箱</span>
+                <span class="reg-error">请填写邮箱</span>
             </li>
             <li class="image">
               <div>
@@ -76,7 +76,7 @@
               </div>
               <label class="upload-button">上传<input type="file" class="upLoadImg" id="upLoadImg" accept="image/*"></label>
               <span class="notes">上传图片请控制在2M以内</span>
-              <span>请上传营业执照副本电子版</span>
+              <span class="reg-error">请上传营业执照副本电子版</span>
             </li>
             <li id="imgList" class="img-list">
                 <figure></figure>

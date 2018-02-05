@@ -44,25 +44,25 @@
 <!-- 左侧导航 -->
 <div class="nav-view">
     <ul>
-        <li class="selected">
+        <li <?php if (!isset($_GET['m']) || $_GET['m']=='index') { ?>class="selected"<?php } ?>>
             <a href="/index.php?c=admin">
                 <i class="nav1"></i>
                 公司管理
             </a>
         </li>
-        <li>
+        <li <?php if (isset($_GET['m']) && strtolower($_GET['m'])=='positionlist') { ?>class="selected"<?php } ?>>
             <a href="/index.php?c=admin&m=positionlist">
                 <i class="nav2"></i>
                 职位管理
             </a>
         </li>
-        <li>
+        <li <?php if (isset($_GET['m']) && strtolower($_GET['m'])=='taglist') { ?>class="selected"<?php } ?>>
             <a href="/index.php?c=admin&m=taglist">
                 <i class="nav3"></i>
                 标签管理
             </a>
         </li>
-        <li>
+        <li <?php if (isset($_GET['m']) && strtolower($_GET['m'])=='noticelist') { ?>class="selected"<?php } ?>>
             <a href="/index.php?c=admin&m=noticelist">
                 <i class="nav3"></i>
                 通知管理

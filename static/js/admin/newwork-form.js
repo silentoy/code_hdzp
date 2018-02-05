@@ -1,4 +1,46 @@
 $(function() {
+    // 关闭
+    var $layer = $('#layer');
+    var $close = $('.close');
+    $close.on('click', closeToast);
+
+    function closeToast() {
+        $('.big-img').hide();
+        $layer.hide();
+    }
+
+    // 查看大图
+    $('.up-success img').on('click', function() {
+        $('.toast-content img').attr('src', $(this).attr('src'))
+        $('.big-img').show();
+        $layer.show();
+    })
+
+    var tagArr = [];
+    var tagIdArr = [];
+    // 标签
+    $('.firms li').on('click', function() {
+        // 删掉选择的
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+            var mHtml = $(this).html();
+            $(tagArr).each(function(i, ele) {
+                if (mHtml == ele) {
+                    tagArr.splice(i, 1);
+                    tagIdArr.splice(i, 1);
+                }
+            });
+
+        } else {
+            $(this).addClass('selected')
+            tagArr.push($(this).html());
+            tagIdArr.push($(this).data('id'));
+        }
+        $('#form input[name="tagid"]').val(tagIdArr)
+        $('.select-list span').html(tagArr.toString());
+        $('.select-list span').css('color', '#333');
+    });
+
     var form = $('#form');
     var verifys = $('.need-verify');
 
@@ -29,14 +71,16 @@ $(function() {
         });
         // 没有错误的时候。。。
         if (!$('.need-verify').hasClass('visible')) {
-            return;
             $.ajax({
-                url: form.action,
-                data: form.data,
+                url: form.attr("action"),
+                data: form.serializeArray(),
                 type: 'POST',
                 success: function(res) {
+                    if (typeof(res) == 'string') {
+                        var res = JSON.parse(res);
+                    }
                     if (res.status == 'ok') {
-
+                        alert('公司创建成功！！')
                     } else {
                         alert(res.msg)
                     }
@@ -58,7 +102,6 @@ $(function() {
         var formData = new FormData();
 
         formData.append("userfile", file);
-
         // 图片上传
         $.ajax({
             url: '/index.php?c=upload&m=onupload',
@@ -76,6 +119,8 @@ $(function() {
                     }
                     $('.new-form input[name="license"]').val(res.info.url);
                     upSuccess.find('figure img').attr('src', res.info.url);
+                } else {
+                    alert(res.msg)
                 }
             }
         })

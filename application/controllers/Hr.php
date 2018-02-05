@@ -16,9 +16,13 @@ class Hr extends MY_Controller {
 
 		$this->load->model('M_company');
 		$this->load->model('M_positions');
-		$this->hrInfo = $this->M_company->get(array('uid'=>$this->user['id']));
+		$this->hrInfo = $this->M_company->get(array('uid'=>$this->user['id'],'ulevel>='=>1));
 		if (!$this->hrInfo) {
 			header('HTTP/1.0 403 Forbidden');
+			exit();
+		}
+		if ($this->hrInfo['ulevel']==3) {
+			header("Location:/index.php?c=hr&m=nopower");
 			exit();
 		}
 	}
@@ -32,10 +36,27 @@ class Hr extends MY_Controller {
 
 		$this->load->model('M_notice');
 		$data['notices']    = $this->M_notice->getList(array('status'=>0), 0, 10, 'id DESC');
-		$data['positions'] = $this->M_positions->total(array('cid'=>$this->hrInfo['id']));
+		$data['positions']  = $this->M_positions->total(array('cid'=>$this->hrInfo['id']));
+		$data['pics']       = stripos($this->hrInfo['pics'], ',') ? explode(",", $this->hrInfo['pics']) : array();
 
 		$this->load->view('hr/header', array('hrInfo'=>$this->hrInfo));
 		$this->load->view('hr/index', $data);
+	}
+
+	public function notice()
+	{
+		$id = (int)$this->input->get('id', TRUE);
+
+		$this->load->model('M_notice');
+		$info = $this->M_notice->get(array('id'=>$id, 'status'=>0));
+
+		$this->load->view('hr/header', array('hrInfo'=>$this->hrInfo));
+		$this->load->view('hr/notice', array('info'=>$info));
+	}
+
+	public function nopower()
+	{
+		$this->load->view('hr/nopower');
 	}
 
 	public function vip()
@@ -86,6 +107,15 @@ class Hr extends MY_Controller {
 			'log_type'		=> 'updatePosition',
 			'log_params'	=> array('status'=>$status, 'id'=>$id)
 		));
+
+		echojsondata('ok');
+	}
+
+	public function addPic()
+	{
+		$pics = $this->input->get('pics', TRUE);
+
+		$this->M_company->update(array('pics'=>$pics), array('id'=>$this->hrInfo['id']));
 
 		echojsondata('ok');
 	}

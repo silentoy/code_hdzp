@@ -11,7 +11,7 @@
             <button class="soso">搜索</button>
         </form>
 
-        <span class="new-creation">+ 新建职位</span>
+        <a href="/index.php?c=admin&m=positionadd" class="new-creation">+ 新建职位</a>
     </div>
     <!-- 内容 -->
     <div class="content">
@@ -40,11 +40,11 @@
             <tr data-id="<?=$item['id'];?>">
                 <td><?=$item['name'];?></td>
                 <td><?=date("Y-m-d", $item['addtime']);?></td>
-                <td data-id="<?=$item['status'];?>"> <span class="waiting"><?=positionStatus($item['status']);?></span> </td>
+                <td> <span class="waiting edit" data-id="<?=$item['id'];?>"><?=positionStatus($item['status']);?></span> </td>
                 <td><?=$item['views']?></td>
                 <td>
-                    <a href="javascript:;" class="edit">编辑</a>
-                    <a href="javascript:;" class="closetd" data-id="<?=$item['status'];?>">删除</a>
+                    <a href="/index.php?c=admin&m=positionadd&id=<?=$item['id'];?>" >编辑</a>
+                    <a href="javascript:;" class="closetd" data-id="<?=$item['id'];?>">删除</a>
                 </td>
                 <td><?=$item['company_name'];?></td>
             </tr>
@@ -61,7 +61,7 @@
 <!-- 分页 -->
 <div class="page">
     <em>共<?=$total;?>条</em>
-    <?php if (isset($pageStr)) { ?>
+    <?php if (isset($pageStr) && $pageStr) { ?>
     <div class="page-list">
         <?=$pageStr;?>
     </div>
@@ -77,23 +77,23 @@
 </div>
 
 <!-- 弹窗 -->
-<form action="/index.php?c=admin&m=onadd" class="toast" style="display:none;" id="newsome">
+<form action="/index.php?c=admin&m=positionupdate" class="toast" style="display:none;" id="newsome">
     <h4>职位状态编辑 <em class="close">X</em></h4>
     <div class="toast-content" id="typelists">
         <ul>
-            <li class="selected">
+            <li class="selected" data-id="0">
                 <i></i>
                 <span>待审核</span>
             </li>
-            <li>
+            <li data-id="1">
                 <i></i>
                 <span>下架</span>
             </li>
-            <li>
+            <li data-id="2">
                 <i></i>
                 <span>上线</span>
             </li>
-            <li>
+            <li data-id="3">
                 <i></i>
                 <span>精选</span>
             </li>
@@ -103,22 +103,23 @@
             <span class="cancel">取消</span>
         </div>
     </div>
-    <input type="hidden" name="status" value="" />
+    <input type="hidden" name="status" value="0" />
     <input type="hidden" name="id" value="" />
 </form>
 
-<div class="toast is-deleted" data-url="" style="display:none;">
+<form class="toast is-deleted" action="/index.php?c=admin&m=positionupdate" data-url="/index.php?c=admin&m=positionupdate" style="display:none;">
     <h4>删除 <em class="close">X</em></h4>
     <div class="toast-content">
         <p>确定要删除吗？</p>
         <div class="buttons">
-            <span class="save" id="delete_btn">确定</span>
+            <button class="save" id="delete_btn">确定</button>
             <span class="cancel">取消</span>
         </div>
     </div>
-</div>
+    <input type="hidden" name="status" value="-1" />
+    <input type="hidden" name="id" value="" />
+</form>
 <i class="layer" id="layer" style="display:none;"></i>
 </body>
-<script src="<?=BASEURL;?>/static/js/admin/public.js"></script>
 <script src="<?=BASEURL;?>/static/js/admin/job.js"></script>
 </html>

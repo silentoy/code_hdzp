@@ -10,8 +10,8 @@ class Weixin extends MY_Controller {
 	{
 		parent::__construct();
 
-		$this->appid = '';
-		$this->appsecret = '';
+		$this->appid = 'wx77e44e2baa8205ce';
+		$this->appsecret = '7ee7b6e3cb9e2948c3450b2193845087';
 	}
 
 	public function index()
@@ -26,7 +26,7 @@ class Weixin extends MY_Controller {
 		}
 
 		$apiUrl = 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code';
-		$response = $this->http_get(sprintf($apiUrl, $this->appid, $this->appsecret, $code));
+		$response = curlpage(sprintf($apiUrl, $this->appid, $this->appsecret, $code));
 		$aResponse = json_decode($response, true); // 正常为{"openid": "OPENID","session_key": "SESSIONKEY""expires_in": 2592000}
 
 		echojsondata('ok', $aResponse);

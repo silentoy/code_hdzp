@@ -42,6 +42,12 @@
 
             <?php foreach ($list as $item) { ?>
             <tr>
+                <input type="hidden" name="name" value="<?=$item['name']?>" />
+                <input type="hidden" name="ulevel" value="<?=$item['ulevel']?>" />
+                <?php if ($item['ulevel']==2) { ?>
+                <input type="hidden" name="vip_start" value="<?=date("Y-m-d", $item['vip_start']);?>" />
+                <input type="hidden" name="vip_end" value="<?=date("Y-m-d", $item['vip_end']);?>" />
+                <?php } ?>
 
                 <td><?=$item['name']?></td>
 
@@ -55,10 +61,10 @@
 
                 <td><?=$item['views']?></td>
 
-                <td>
-                <a href="javascript:;" class="edit" data-id="<%- index %>">编辑</a>
-                <a href="javascript:;" class="closetd" data-id="<%- index %>">删除</a>
-                    <a href="javascript:;">待审核</a>
+                <td class="some-thing">
+                <a href="/index.php?c=admin&m=companyadd&id=<?=$item['id'];?>">编辑</a>
+                <a href="javascript:;" class="closetd" data-id="<?=$item['id'];?>">删除</a>
+                    <?php if ($item['ulevel']==3) { ?><a href="javascript:;" class="edit" data-name="<?=$item['name']?>" data-id="<?=$item['id'];?>">待审核</a><?php } ?>
                 </td>
             </tr>
             <?php } ?>
@@ -90,27 +96,27 @@
 </div>
 
 <!-- 弹窗 -->
-<form class="toast" action="http://www.hdzp.com/index.php?c=admin&m=companyadd" style="display:none;" id="newsome">
+<form class="toast" action="/index.php?c=admin&m=oncompanyupdate" style="display:none;" id="newsome">
     <h4>公司等级编辑 <em class="close">X</em></h4>
     <div class="toast-content">
         <div class="info">
             <p>北京中关村在线科技有限公司</p>
             <label for="">
                     密码 
-                    <input type="text" id="password">
+                    <input type="text" id="password" name="password">
                 </label>
         </div>
         <div class="types" id="editlists">
             <ul>
-                <li class="selected">
+                <li class="selected" data-ulevel="3">
                     <i></i>
                     <span>待审核</span>
                 </li>
-                <li>
+                <li data-ulevel="1">
                     <i></i>
                     <span>普通用户</span>
                 </li>
-                <li>
+                <li data-ulevel="2">
                     <i></i>
                     <span>VIP用户</span>
                     <label for="" id="set_date">
@@ -136,7 +142,7 @@
     <input type="hidden" name="id" value="" />
 </form>
 
-<div class="toast is-deleted" data-url="" style="display:none;">
+<form class="toast is-deleted" action="/index.php?c=admin&m=oncompanyupdate" data-url="/index.php?c=admin&m=oncompanyupdate" style="display:none;">
     <h4>删除 <em class="close">X</em></h4>
     <div class="toast-content">
         <p>确定要删除吗？</p>
@@ -145,9 +151,10 @@
             <span class="cancel">取消</span>
         </div>
     </div>
-</div>
+    <input type="hidden" name="id" value="" />
+    <input type="hidden" name="ulevel" value="-1" />
+</form>
 <i class="layer" id="layer" style="display:none;"></i>
 </body>
-<script src="<?=BASEURL;?>/static/js/admin/public.js"></script>
 <script src="<?=BASEURL;?>/static/js/admin/index.js"></script>
 </html>

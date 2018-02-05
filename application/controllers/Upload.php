@@ -17,10 +17,10 @@ class Upload extends MY_Controller
     public function onUpload()
     {
         $config['upload_path'] = FCPATH . 'uploads/';
-        $config['allowed_types'] = 'gif|jpg|png';
+        $config['allowed_types'] = '*';
         $config['max_size'] = 10240;
-        $config['max_width'] = 1024;
-        $config['max_height'] = 768;
+        $config['max_width'] = 0;
+        $config['max_height'] = 0;
         $config['file_name'] = date("Ymd") . "_" . TIMESTAMP;
 
         $this->load->library('upload', $config);

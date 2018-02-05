@@ -146,7 +146,7 @@ class M_positions extends MY_Model
         }
 
         if ($params['tagid']) {
-            $where .= " find_in_set(`c.tagid`, '{$params['tagid']}') and";
+            $where .= " find_in_set('{$params['tagid']}', c.`tagid`) and";
         }
 
         if ($params['openid']) {

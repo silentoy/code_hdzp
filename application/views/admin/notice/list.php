@@ -26,7 +26,7 @@
 <!-- 分页 -->
 <div class="page">
     <em>共<?=$total;?>条</em>
-    <?php if (isset($pageStr)) { ?>
+    <?php if (isset($pageStr) && $pageStr) { ?>
     <div class="page-list">
         <?=$pageStr;?>
     </div>

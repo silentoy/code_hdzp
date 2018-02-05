@@ -312,12 +312,18 @@ function positionStatus($status=0) {
     if ($status==3) {
         return '精选';
     } else if ($status==2) {
-        return '已上线';
+        return '<span class="online">已上线</span>';
     } else if($status==1) {
         return '已下线';
     } else {
         return '待审核';
     }
+}
+
+function pregKeyword($content, $keyword)
+{
+    $toReplce = '<i class="pitch_on">'.$keyword.'</i>';
+    return str_replace($keyword, $toReplce, $content);
 }
 
 function curlpage($url, $postdata = '', $timeout = 2, $post = true, $header = array()){

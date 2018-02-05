@@ -33,7 +33,7 @@
                 <li class="choose">
                     <label for="">应聘方式</label>
 						<span  class="radio">
-							<input name="ask_type" id="jianli" type="radio" value="1" <?php if (isset($info['ask_type']) && $info['ask_type']==1) {echo 'checked="checked"';}?>>
+							<input name="ask_type" id="jianli" type="radio" checked value="1" <?php if (isset($info['ask_type']) && $info['ask_type']==1) {echo 'checked="checked"';}?>>
 							<label for="jianli">发送简历</label>
 						</span>
 						<span class="radio">

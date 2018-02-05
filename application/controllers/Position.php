@@ -52,10 +52,13 @@ class Position extends MY_Controller
         $total = $this->M_positions->getData($params);
 
         if ($total) {
-            $params['start'] = (int)$this->input->get('start', TRUE);
             $params['num'] = (int)$this->input->get('num', TRUE);
-            $params['start'] = $params['start'] ? $params['start'] : 0;
             $params['num'] = $params['num'] ? $params['num'] : 10;
+
+            $page = (int)$this->input->get('page', TRUE);
+            $page = $page ? $page : 1;
+            $params['start'] = ($page-1)*$params['num'];
+
             $list = $this->M_positions->getData($params);
         } else {
             $list = false;

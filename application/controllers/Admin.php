@@ -227,14 +227,17 @@ class Admin extends MY_Controller {
 
 		$like = false;
 		if ($name) $like = array('name'=>$name);
-		$data['total'] = $this->M_positions->total(array('status>'=>0), $like);
+		$data['total'] = $this->M_positions->total(array('status>='=>0), $like);
 		if ($data['total']) {
 			$start = ($data['page']-1) * $pre_page;
 
-			$data['list'] = $this->M_positions->getList(array('status>'=>0), $start, $pre_page, 'addtime desc', $like);
+			$data['list'] = $this->M_positions->getList(array('status>='=>0), $start, $pre_page, 'addtime desc', $like);
 			foreach ($data['list'] as $key=>$item) {
 				$company = $this->M_company->get(array('id'=>$item['cid']));
 				$data['list'][$key]['company_name'] = $company['name'];
+				if ($name) {
+					$data['list'][$key]['name'] = pregKeyword($item['name'], $name);
+				}
 			}
 
 			//分页
@@ -388,7 +391,7 @@ class Admin extends MY_Controller {
 	 */
 	public function tagOrder()
 	{
-		$order = $this->input->get('order', TRUE);
+		$order = $this->input->post('order', TRUE);
 		if (!$order) {
 			echojsondata('err', false, '参数不完整');
 		}

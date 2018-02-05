@@ -1,7 +1,7 @@
 <!-- 新建职位 -->
 <div class="view-content">
     <h4>
-        <a href="#">职位管理</a>/新建职位
+        <a href="/index.php?c=admin&m=positionlist">职位管理</a>/<?php if (isset($info)) { ?>编辑<?php } else { ?>新建<?php } ?>职位
     </h4>
     <!-- 表单 -->
     <form action="/index.php?c=admin&m=onadd" class="new-form" id="form">
@@ -72,7 +72,7 @@
                 <input type="hidden" class="need-verify" name="ask_type" value="1">
             </li>
             <li class="submit-view">
-                <button>保存修改</button>
+                <button><?php if (isset($info)) { ?>保存修改<?php } else { ?>发布职位<?php } ?></button>
             </li>
         </ul>
     </form>

@@ -10,7 +10,7 @@
         <ul id="tag_list" data-url="/index.php?c=admin&m=tagadd">
             <?php foreach ($list as $item) { ?>
             <li data-id="<?=$item['id'];?>">
-                <span>X</span> <p><?=$item['name'];?></p>
+                <span>X</span> <p data-id="<?=$item['id'];?>"><?=$item['name'];?></p>
             </li>
             <?php } ?>
         </ul>
@@ -32,7 +32,19 @@
     <input type="hidden" name="status" value="0">
 </form>
 
+<div class="toast is-deleted" data-url="/index.php?c=admin&m=tagadd" style="display:none;">
+    <h4>删除 <em class="close">X</em></h4>
+    <div class="toast-content">
+        <p>确定要删除吗？</p>
+        <div class="buttons">
+            <span class="save" id="delete_btn">确定</span>
+            <span class="cancel">取消</span>
+        </div>
+    </div>
+</div>
+
 <i class="layer" id="layer" style="display:none;"></i>
 </body>
+<script src="<?=BASEURL;?>/static/js/jquery.dragsort-0.4.min.js"></script>
 <script src="<?=BASEURL;?>/static/js/admin/tags.js"></script>
 </html>

@@ -13,7 +13,7 @@
             <a href="#">
                 <img src="<?= BASEURL; ?>/static/img/logo.png" alt="">
             </a>
-            <span>(管理员后台)</span>
+            <span>(HR后台)</span>
         </div>
         <div class="header-right">
             <a href="#"><?=GLOBAL_USER['name']?></a>，
@@ -44,6 +44,7 @@
                 <a href="/index.php?c=hr&m=vip">
                     <i class="nav4"></i>
                     升级VIP
+                    <em></em>
                 </a>
             </li>
         </ul>

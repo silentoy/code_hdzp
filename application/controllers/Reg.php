@@ -75,13 +75,13 @@ class Reg extends MY_Controller {
 			$this->M_company->add($company);
 		} else {
 			$this->M_company->update($company, array('uid'=>$uid));
-			$this->M_use->update(array('name'=>$param['name']), array('id'=>$uid));
+			$this->M_user->update(array('name'=>$param['name']), array('id'=>$uid));
 		}
 
 		//注册完成
 		$res = array(
 			'uid'		=> $uid,
-			'password'	=> $param['password']
+			'password'	=> isset($param['password']) ? $param['password'] : ''
 		);
 
 		echojsondata('ok', $res);

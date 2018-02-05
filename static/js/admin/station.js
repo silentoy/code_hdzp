@@ -1,9 +1,9 @@
 $(function() {
-    // 公司
+    // 标签
     $('.firms li').on('click', function() {
         $('.select-list span').html($(this).html());
         $('.select-list span').css('color', '#333')
-        $('#form input[name="cid"]').val($(this).data('id'))
+        $('#form input[name="cid"]').val($(this).data('id'));
     });
 
     // 应聘方式
@@ -47,14 +47,16 @@ $(function() {
             }
         });
         if (!$('.need-verify').hasClass('visible')) {
-            return;
             $.ajax({
-                url: form.action,
-                data: form.data,
+                url: form.attr("action"),
+                data: form.serializeArray(),
                 type: 'POST',
                 success: function(res) {
+                    if (typeof(res) == 'string') {
+                        var res = JSON.parse(res);
+                    }
                     if (res.status == 'ok') {
-
+                        alert(res.msg)
                     } else {
                         alert(res.msg)
                     }
